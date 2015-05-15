@@ -4,10 +4,14 @@ import worldobject.Background;
 import worldobject.WorldObject;
 import worldobject.entities.Entity;
 import worldobject.entities.Obstacle;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import processing.core.PImage;
-import projdata.Actions;
+import projdata.Action;
+import projdata.OrderedList;
+import projdata.Schedules;
 import projdata.Grid;
 import projdata.Point;
 import projdata.Types;
@@ -20,6 +24,7 @@ public class WorldModel {
 	private Grid background;
 	private Grid occupany;
 	private Background backentity;
+	private OrderedList actionQueue;
 	
 	public WorldModel( int num_rows, int num_cols, Background backentity)
 	{
@@ -29,6 +34,7 @@ public class WorldModel {
 		this.entities = new ArrayList<>();
 		this.background = new Grid(num_cols, num_rows, backentity);
 		this.occupany = new Grid(num_cols, num_rows, null);
+		this.actionQueue = new OrderedList();
 	}
 	
 	public boolean within_bounds(Point pt)
@@ -109,7 +115,7 @@ public class WorldModel {
 	
 	public void remove_entity_at(Point pt)
 	{
-		Actions action;
+		Schedules action;
 		if (this.within_bounds(pt) && occupany.getCell(pt) != null)
 		{
 			Entity entity = (Entity) occupany.getCell(pt);
@@ -167,5 +173,15 @@ public class WorldModel {
 	public ArrayList<Entity> get_entities()
 	{
 		return this.entities;
+	}
+	
+	public void scheduleAction(Action thingtodo, long time)
+	{
+		this.actionQueue.insert(thingtodo, time);
+	}
+	
+	public void unscheduleAction(Action thingtodo)
+	{
+		this.actionQueue.remove(thingtodo);
 	}
 }

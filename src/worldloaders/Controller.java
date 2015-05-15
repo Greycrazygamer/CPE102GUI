@@ -5,12 +5,11 @@ import processing.core.PApplet;
 public class Controller
 {
 
-	public static int[] keyPresses(PApplet screen)
+	public static int[] keyPresses(char key)
 	{
-		char key = screen.key;
 		int deltaX= 0;
 		int deltaY= 0;
-		int[] delta = new int[1];
+		int[] delta = new int[2];
 		switch(key)
 		{
 		case 'w':

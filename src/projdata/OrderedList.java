@@ -13,11 +13,11 @@ public class OrderedList
 		this.list = new ArrayList<ListItem>();
 	}
 	
-	public void insert(Object item, int ord)
+	public void insert(Object item, long time)
 	{
 		int size= this.list.size();
 		int idx = 0;
-		while (idx < size && this.list.get(idx).getOrd() < ord)
+		while (idx < size && this.list.get(idx).getOrd() < time)
 		{
 			idx += 1;
 		}

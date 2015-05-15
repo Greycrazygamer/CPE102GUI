@@ -10,11 +10,17 @@ import projdata.Point;
 public class Quake
 extends Actionable
 {
-
-	public Quake(String name, Point position, List<PImage> imgs)
+	private int animationRate;
+	public Quake(String name, Point position, List<PImage> imgs, int animationRate)
 	{
 		super(name, position, imgs);
+		this.animationRate= animationRate;
+		
 		// TODO Auto-generated constructor stub
+	}
+	public int getAnimationRate()
+	{
+		return animationRate;
 	}
 
 }

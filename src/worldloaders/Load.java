@@ -9,15 +9,13 @@ import worldobject.entities.action.*;
 import worldobject.entities.action.mover.*;
 import worldobject.entities.action.mover.miner.*;
 
-
-
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import cpe102projectwgui.CPE102ProjectWGUI;
-
 import processing.core.PApplet;
 import processing.core.PImage;
 import projdata.Point;
@@ -26,10 +24,9 @@ public class Load
 {
 	
 	
-	public static List<PImage> blob;
-	public static List<PImage> quake;
-	public static List<List<PImage>> ALLIMAGES;
-	
+	public static List<PImage> BLOB_IMG= new ArrayList<>();
+	public static List<PImage> QUAKE_IMG= new ArrayList<>();
+		
 			public static int PROPERTY_KEY = 0;
 
 			public static String BGND_KEY = "background";
@@ -37,7 +34,7 @@ public class Load
 			public static int BGND_NAME = 1;
 			public static int BGND_COL = 2;
 			public static int BGND_ROW = 3;
-			public static List<PImage> BGND_IMG;
+			public static List<PImage> BGND_IMG = new ArrayList<>();;
 			
                    
 			public static String MINER_KEY = "miner";
@@ -48,14 +45,14 @@ public class Load
 			public static int MINER_ROW = 3;
 			public static int MINER_RATE = 5;
 			public static int MINER_ANIMATION_RATE = 6;
-			public static List<PImage> MINER_IMG;
+			public static List<PImage> MINER_IMG = new ArrayList<>();
                    
 			public static String OBSTACLE_KEY = "obstacle";
 			public static int OBSTACLE_NUM_PROPERTIES = 4;
 			public static int OBSTACLE_NAME = 1;
 			public static int OBSTACLE_COL = 2;
 			public static int OBSTACLE_ROW = 3;
-			public static List<PImage> OBSTACLE_IMG;
+			public static List<PImage> OBSTACLE_IMG= new ArrayList<>();
                    
 			public static String ORE_KEY = "ore";
 			public static int ORE_NUM_PROPERTIES = 5;
@@ -63,7 +60,7 @@ public class Load
 			public static int ORE_COL = 2;
 			public static int ORE_ROW = 3;
 			public static int ORE_RATE = 4;
-			public static List<PImage> ORE_IMG;
+			public static List<PImage> ORE_IMG= new ArrayList<>();
                    
 			public static String SMITH_KEY = "blacksmith";
 			public static int SMITH_NUM_PROPERTIES = 7;
@@ -73,7 +70,7 @@ public class Load
 			public static int SMITH_LIMIT = 4;
 			public static int SMITH_RATE = 5;
 			public static int SMITH_REACH = 6;
-			public static List<PImage> SMITH_IMG;
+			public static List<PImage> SMITH_IMG = new ArrayList<>();
                     
 			public static String VEIN_KEY = "vein";
 			public static int VEIN_NUM_PROPERTIES = 6;
@@ -82,14 +79,15 @@ public class Load
 			public static int VEIN_COL = 2;
 			public static int VEIN_ROW = 3;
 			public static int VEIN_REACH = 5;
-			public static List<PImage> VEIN_IMG;
+			public static List<PImage> VEIN_IMG= new ArrayList<>();
 			        
-			public static void LoadWorld(WorldModel world, File file)
+			public static void LoadWorld(WorldModel world, String filename)
 			{
 				boolean run = false;
 				Scanner reader= null;
 				try {
-					reader = new Scanner(file);
+					
+					reader = new Scanner(new File(filename));
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -113,11 +111,11 @@ public class Load
 				reader.close();
 			}
 			
-			public static void LoadWorld(WorldModel world, File file, boolean run)
+			public static void LoadWorld(WorldModel world, String filename, boolean run)
 			{
 				Scanner reader= null;
 				try {
-					reader = new Scanner(file);
+					reader = new Scanner(new File(filename));
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -159,7 +157,7 @@ public class Load
 					world.add_entity(newEntity);
 					if(run)
 					{
-						//schedule_entity(world, newEntity, images);
+						schedule_entity(world, newEntity, images);
 					}
 				}
 			}
