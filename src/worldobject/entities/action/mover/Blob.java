@@ -11,12 +11,19 @@ import projdata.Types;
 public class Blob
 extends Mover
 {
-	public Blob(String name, Point position, int rate, List<PImage> imgs)
+	private int animationRate;
+	public Blob(String name, Point position, int rate, List<PImage> imgs, int animationRate)
 	{
 		super(name, position, rate, imgs);
+		this.animationRate= animationRate;
 		// TODO Auto-generated constructor stub
 	}
-
+	
+	public int getAnimationRate()
+	{
+		return this.animationRate;
+	}
+		
 	public Types getType()
 	{
 		return Types.BLOB;

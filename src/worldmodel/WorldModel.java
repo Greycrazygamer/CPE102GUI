@@ -1,17 +1,20 @@
 package worldmodel;
 
+import worldloaders.Action;
+import worldloaders.Load;
+import worldloaders.Schedules;
 import worldobject.Background;
 import worldobject.WorldObject;
 import worldobject.entities.Entity;
 import worldobject.entities.Obstacle;
+import worldobject.entities.action.mover.Blob;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import processing.core.PImage;
-import projdata.Action;
 import projdata.OrderedList;
-import projdata.Schedules;
 import projdata.Grid;
 import projdata.Point;
 import projdata.Types;
@@ -77,6 +80,7 @@ public class WorldModel {
 		return oftype.get(mindex);
 	}
 	
+	
 	public void add_entity(Entity entity)
 	{
 		Point pt= entity.getPosition();
@@ -115,17 +119,15 @@ public class WorldModel {
 	
 	public void remove_entity_at(Point pt)
 	{
-		Schedules action;
 		if (this.within_bounds(pt) && occupany.getCell(pt) != null)
 		{
 			Entity entity = (Entity) occupany.getCell(pt);
 			entity.setPosition(new Point(-1, -1));
-			//Actions.remove_entity(this, entity);
+			this.entities.remove(entity);
 			occupany.setCell(pt, null);
 		}
 	}
-	//public schedule_action
-	//public unschedule_action
+	
 	public PImage getBackgroundImage(Point pt)
 	{
 		if (this.within_bounds(pt))
@@ -183,5 +185,14 @@ public class WorldModel {
 	public void unscheduleAction(Action thingtodo)
 	{
 		this.actionQueue.remove(thingtodo);
+	}
+	
+	public Blob createBlob(String name, Point pt, int rate, long ticks)
+	{
+		Random r = new Random();
+		int i1 = r.nextInt(Schedules.BLOB_ANIMATION_MAX - Schedules.BLOB_ANIMATION_MIN + 1) + Schedules.BLOB_ANIMATION_MIN;
+		i1= i1*Schedules.BLOB_ANIMATION_RATE_SCALE;
+		Blob blob =new Blob(name, pt, rate, Load.BLOB_IMG, i1);
+		return blob;
 	}
 }

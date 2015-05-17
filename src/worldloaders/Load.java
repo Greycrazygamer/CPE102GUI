@@ -19,6 +19,7 @@ import cpe102projectwgui.CPE102ProjectWGUI;
 import processing.core.PApplet;
 import processing.core.PImage;
 import projdata.Point;
+import projdata.Types;
 
 public class Load
 {
@@ -34,7 +35,8 @@ public class Load
 			public static int BGND_NAME = 1;
 			public static int BGND_COL = 2;
 			public static int BGND_ROW = 3;
-			public static List<PImage> BGND_IMG = new ArrayList<>();;
+			public static List<PImage> BGND_GRASS_IMG = new ArrayList<>();
+			public static List<PImage> BGND_ROCK_IMG = new ArrayList<>();
 			
                    
 			public static String MINER_KEY = "miner";
@@ -94,10 +96,12 @@ public class Load
 				}
 				while (reader.hasNextLine())
 				{
-					String[] properties= reader.nextLine().split("//s");
+					String[] properties= reader.nextLine().split("\\s");
+					System.out.println(properties);
 					if (properties != null)
 					{
-						if (properties[PROPERTY_KEY] == BGND_KEY)
+						
+						if (properties[PROPERTY_KEY].equals(BGND_KEY))
 						{
 							AddBackground(world, properties);
 						}
@@ -122,11 +126,12 @@ public class Load
 				}
 				while (reader.hasNextLine())
 				{
-					String[] properties= reader.nextLine().split("//s");
+					String[] properties= reader.nextLine().split("\\s");
 					if (properties != null)
 					{
-						if (properties[PROPERTY_KEY] == BGND_KEY)
+						if (properties[PROPERTY_KEY].equals(BGND_KEY))
 						{
+							//System.out.println("help");
 							AddBackground(world, properties);
 						}
 						else
@@ -145,7 +150,15 @@ public class Load
 				{
 					Point pt = new Point(Integer.parseInt(properties[BGND_COL]), Integer.parseInt(properties[BGND_ROW]));
 					String name = properties[BGND_NAME];
-					world.set_background(pt, new Background(name, BGND_IMG));
+					if (properties[1].equals("grass"))
+					{
+						world.set_background(pt, new Background(name, BGND_GRASS_IMG));
+					}
+					if (properties[1].equals("rocks"))
+					{
+						world.set_background(pt, new Background(name, BGND_ROCK_IMG));
+					}
+					
 				}
 			}
 			
@@ -157,7 +170,7 @@ public class Load
 					world.add_entity(newEntity);
 					if(run)
 					{
-						schedule_entity(world, newEntity, images);
+						//schedule_entity(world, newEntity, images);
 					}
 				}
 			}
@@ -167,8 +180,10 @@ public class Load
 				String key = properties[PROPERTY_KEY];
 				if (properties != null)
 				{
+					
 					if (key.equals(MINER_KEY))
 					{
+						
 						return CreateMiner(properties);
 					}
 					else if (key.equals(VEIN_KEY))
@@ -195,7 +210,7 @@ public class Load
 			{
 				if (properties.length== MINER_NUM_PROPERTIES)
 				{
-					Entity miner = new MinerFull(properties[MINER_NAME],
+					Entity miner = new MinerNotFull(properties[MINER_NAME],
 							Integer.parseInt(properties[MINER_LIMIT]), 
 							new Point(Integer.parseInt(properties[MINER_COL]), Integer.parseInt(properties[MINER_ROW])),
 							Integer.parseInt(properties[MINER_RATE]),
@@ -274,78 +289,108 @@ public class Load
 				}
 			}
 			
+			public static void scheduleEntity(WorldModel world, Mover entity)
+			{
+				if (entity.getType()== Types.MINERNOTFULL)
+				{
+					
+				}
+				else if(entity.getType()== Types.VEIN)
+				{
+					
+				}
+				else if(entity.getType()== Types.ORE)
+				{
+					
+				}
+			}
 			
-//			public static void imageLoad(String imagelist, PApplet screen)
-//			{
-//				Scanner reader = null;
-//				try {
-//					reader= new Scanner(new File(imagelist));
-//				} catch (FileNotFoundException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				while (reader.hasNextLine())
-//				{
-//					String[] line = reader.nextLine().split("\\s");
-//					System.out.println(line[1]);
-//					imageSort(line, screen);
-//					
-//					
-//				}
-//				reader.close();
-//			}
-//			
-//			public static void imageSort(String[] line, PApplet screen)
-//			{
-//				int type = Integer.parseInt(line[0]);
-//				PImage temp;
-//				switch (type)
-//				{
-//				case 1:
-//					temp = screen.loadImage(line[1]);
-//					Load.SMITH_IMG.add(temp);
-//					Load.ALLIMAGES.add(Load.SMITH_IMG);
-//					break;
-//				case 2:
-//					temp = screen.loadImage(line[1]);
-//					Load.blob.add(temp);
-//					Load.ALLIMAGES.add(Load.blob);
-//					break;
-//				case 3:
-//					temp = screen.loadImage(line[1]);
-//					Load.BGND_IMG.add(temp);
-//					Load.ALLIMAGES.add(Load.BGND_IMG);
-//					break;
-//				case 4:
-//					temp = screen.loadImage(line[1]);
-//					Load.MINER_IMG.add(temp);
-//					Load.ALLIMAGES.add(Load.MINER_IMG);
-//					break;
-//				case 5:
-//					temp = screen.loadImage(line[1]);
-//					Load.OBSTACLE_IMG.add(temp);
-//					Load.ALLIMAGES.add(Load.OBSTACLE_IMG);
-//					break;
-//				case 6:
-//					temp = screen.loadImage(line[1]);
-//					Load.ORE_IMG.add(temp);
-//					Load.ALLIMAGES.add(Load.ORE_IMG);
-//					break;
-//				case 7:
-//					temp = screen.loadImage(line[1]);
-//					Load.quake.add(temp);
-//					Load.ALLIMAGES.add(Load.quake);
-//					break;
-//				case 8:
-//					temp = screen.loadImage(line[1]);
-//					Load.BGND_IMG.add(temp);
-//					Load.ALLIMAGES.add(Load.BGND_IMG);
-//					break;
-//				case 9:
-//					temp = screen.loadImage(line[1]);
-//					Load.VEIN_IMG.add(temp);
-//					Load.ALLIMAGES.add(Load.VEIN_IMG);
-//					break;
-//				}
-//			}
+			public static void imageLoad(String imagelist, PApplet screen)
+			{
+				Scanner reader = null;
+				try {
+					reader= new Scanner(new File(imagelist));
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+				while (reader.hasNextLine())
+				{
+					String[] line = reader.nextLine().split("\\s");
+					imageSort(line, screen);
+					
+					
+				}
+				reader.close();
+			}
+			
+			private static final int COLOR_MASK = 0xffffff;
+
+			   // Called with color for which alpha should be set and alpha value.
+			   //PImage img = setAlpha(loadImage("wyvern1.bmp"), color(255, 255, 255), 0));
+			private static PImage setAlpha(PImage img, int maskColor, int alpha)
+			{
+			      int alphaValue = alpha << 24;
+			      int nonAlpha = maskColor & COLOR_MASK;
+			      img.format = PApplet.ARGB;
+			      img.loadPixels();
+			      for (int i = 0; i < img.pixels.length; i++)
+			      {
+			         if ((img.pixels[i] & COLOR_MASK) == nonAlpha)
+			         {
+			            img.pixels[i] = alphaValue | nonAlpha;
+			         }
+			      }
+			      img.updatePixels();
+			      return img;
+			}
+			   
+			public static void imageSort(String[] line, PApplet screen)
+			{
+				int type = Integer.parseInt(line[0]);
+				PImage temp;
+				String name= line[1].trim();
+				//System.out.println(name);
+				switch (type)
+				{
+				case 1:
+					temp = screen.loadImage(name);
+					
+					Load.SMITH_IMG.add(temp);
+					break;
+				case 2:
+					temp = screen.loadImage(name);
+					Load.BLOB_IMG.add(temp);
+					break;
+				case 3:
+					temp = screen.loadImage(name);
+					Load.BGND_GRASS_IMG.add(temp);
+					break;
+				case 4:
+					temp = screen.loadImage(name);
+					PImage temp2= Load.setAlpha(temp, screen.color(255, 255, 255), 0);
+					Load.MINER_IMG.add(temp2);
+					break;
+				case 5:
+					temp = screen.loadImage(name);
+					Load.OBSTACLE_IMG.add(temp);
+					break;
+				case 6:
+					temp = screen.loadImage(name);
+					Load.ORE_IMG.add(temp);
+					break;
+				case 7:
+					temp = screen.loadImage(name);
+					Load.QUAKE_IMG.add(temp);
+					break;
+				case 8:
+					temp = screen.loadImage(name);
+					Load.BGND_ROCK_IMG.add(temp);
+					break;
+				case 9:
+					temp = screen.loadImage(name);
+					Load.VEIN_IMG.add(temp);
+					break;
+				}
+			}	
+			
 }

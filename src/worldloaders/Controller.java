@@ -5,7 +5,7 @@ import processing.core.PApplet;
 public class Controller
 {
 
-	public static int[] keyPresses(char key)
+	public static  void keyPresses(char key, WorldView view)
 	{
 		int deltaX= 0;
 		int deltaY= 0;
@@ -13,13 +13,14 @@ public class Controller
 		switch(key)
 		{
 		case 'w':
-			deltaY++;
+			System.out.println("w");
+			deltaY--;
 			break;
 		case 'a':
 			deltaX--;
 			break;
 		case 's':
-			deltaY--;
+			deltaY++;
 			break;
 		case 'd':
 			deltaX++;
@@ -27,6 +28,7 @@ public class Controller
 		}
 		delta[0]=deltaX;
 		delta[1]=deltaY;
-		return delta;
+		view.updateView(delta);
+		
 	}
 }

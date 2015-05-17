@@ -35,15 +35,18 @@ public class WorldView
 		this.world= world;
 		this.tileWidth= tile_width;
 		this.tileHeight= tile_height;
+		this.numCols= 40;
+		this.numRows=30;
+		
 	}
 	
 	public void drawTile(PImage img, Point loc)
 	{
 		
-		screen.image(img, loc.getX()*32 , loc.getY()*32);
+		this.screen.image(img, loc.getX()*32 , loc.getY()*32);
 	}
 		
-	public void drawBackground(List<PImage> bg)
+	private void drawBackground()
 	{
 		
 		for (int y = 0; y < viewPort.getHeight(); y++)
@@ -53,10 +56,8 @@ public class WorldView
 				
 				Point wPt= viewportToWorld(new Point (x,y));
 						
-				//PImage img = this.world.getBackgroundImage(wPt);
-				//System.out.println(img);
-				//NEEDS UPDATING
-				drawTile(bg.get(0), new Point(x,y));
+				PImage img = this.world.getBackgroundImage(wPt);
+				drawTile(img, new Point(x,y));
 			}
 		}
 	}
@@ -65,8 +66,10 @@ public class WorldView
 	{
 		for (Entity e: this.world.get_entities())
 		{
+			
 			if (this.viewPort.containsPoint(e.getPosition()))
 			{
+				
 				Point vPt= this.worldToViewpoint(e.getPosition());
 				this.drawTile(e.getImage(), vPt);
 			}
@@ -75,7 +78,7 @@ public class WorldView
 	
 	public void drawViewport()
 	{
-		//this.drawBackground();
+		this.drawBackground();
 		this.drawEntities();
 	}
 	
@@ -101,7 +104,8 @@ public class WorldView
 	
 	public void updateView(int[] delta)
 	{
-		this.viewPort= this.createShiftedViewport(delta, this.numRows, this.numCols);
+		this.viewPort= this.createShiftedViewport(delta);
+		//this.viewPort.printOrigin();
 		this.drawViewport();
 	}
 	
@@ -118,10 +122,11 @@ public class WorldView
 				pt.getY() - viewPort.getTopLeft().getY());
 	}
 	
-	public ViewPort createShiftedViewport(int[] delta, int num_rows, int num_cols)
+	public ViewPort createShiftedViewport(int[] delta)
 	{
-		int new_x= clamp(this.viewPort.getTopLeft().getX() + delta[0], 0, num_cols - this.viewPort.getWidth());
-		int new_y= clamp(this.viewPort.getTopLeft().getY() + delta[1], 0, num_rows - this.viewPort.getHeight());
+		int new_x= clamp(this.viewPort.getTopLeft().getX() + delta[0], 0, this.numCols - this.viewPort.getWidth());
+		//System.out.println(new_x);
+		int new_y= clamp(this.viewPort.getTopLeft().getY() + delta[1], 0, this.numRows - this.viewPort.getHeight());
 		return new ViewPort(new_x, new_y, this.viewPort.getWidth(), this.viewPort.getHeight());
 	}
 	public int clamp(int v, int low, int high)

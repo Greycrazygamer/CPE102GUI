@@ -1,4 +1,4 @@
-package projdata;
+package worldloaders;
 
 @FunctionalInterface
 public interface Action<Long> {

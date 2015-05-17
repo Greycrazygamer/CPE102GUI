@@ -29,39 +29,41 @@ public class CPE102ProjectWGUI extends PApplet
 	public boolean RUN_AFTER_LOAD= true;
 		
 	
-	private char key;
 	private long next_time;
 	private WorldView view;
 	private WorldModel world;
-	public Background bgent;
+	public Background DEFAULT_BACKGROUND;
+	public List<PImage> back;
+	public PImage temp;	
 	
 	
-	public void master_load(WorldModel world, ArrayList<PImage> images, File filename)
-	{
-		
-	}
-	
+
 	
 	public void setup()
 	{
+		temp= loadImage("none.bmp");
+		size(SCREEN_WIDTH,SCREEN_HEIGHT);	
+		back= new ArrayList<>();
+		back.add(temp);
+		DEFAULT_BACKGROUND= new Background("default_background", back);
 		
-//		ellipse(10,10,10,10);
-		imageLoad(IMAGE_FILE);
-		//System.out.print(ALLIMAGES);
-		size(SCREEN_WIDTH,SCREEN_HEIGHT);
-		Load.LoadWorld(world, WORLD_FILE, RUN_AFTER_LOAD);
-		world = new WorldModel(32, 32, bgent);
+		world = new WorldModel(30, 40, DEFAULT_BACKGROUND);
 		view = new WorldView(SCREEN_WIDTH / TILE_WIDTH,
 			      SCREEN_HEIGHT / TILE_HEIGHT , this, world, 32, 32);
 		
-		//view.drawBackground(background);
-		//view.drawTile(background.get(0), new Point(0,0));
+
+		Load.imageLoad(IMAGE_FILE, this);
 		
+		
+		Load.LoadWorld(world, WORLD_FILE, RUN_AFTER_LOAD);
+		
+		view.drawViewport();
 	}
 
 	public void draw() 
 	{
-		Controller.keyPresses(this.key);
+		view.drawViewport();
+		
 		// A simplified action scheduling handler
 	    long time = System.currentTimeMillis();
 	    if (time >= next_time)
@@ -73,70 +75,34 @@ public class CPE102ProjectWGUI extends PApplet
 		
 	}
 	
-	public void imageLoad(String imagelist)
-	{
-		Scanner reader = null;
-		try {
-			reader= new Scanner(new File(imagelist));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		while (reader.hasNextLine())
-		{
-			String[] line = reader.nextLine().split("\\s");
-			imageSort(line);
-			
-			
-		}
-		reader.close();
-	}
 	
-	public void imageSort(String[] line)
+	
+	public void keyPressed()
 	{
-		int type = Integer.parseInt(line[0]);
-		PImage temp;
-		String name= line[1].trim();
-		//System.out.println(name);
-		switch (type)
+		int deltaX= 0;
+		int deltaY= 0;
+		int[] delta = new int[2];
+		switch(key)
 		{
-		case 1:
-			temp = loadImage(name);
-			Load.SMITH_IMG.add(temp);
+		case 'w':
+			
+			deltaY--;
 			break;
-		case 2:
-			temp = loadImage(name);
-			Load.BLOB_IMG.add(temp);
+		case 'a':
+			deltaX--;
 			break;
-		case 3:
-			temp = loadImage(name);
-			Load.BGND_IMG.add(temp);
+		case 's':
+			deltaY++;
 			break;
-		case 4:
-			temp = loadImage(name);
-			Load.MINER_IMG.add(temp);
-			break;
-		case 5:
-			temp = loadImage(name);
-			Load.OBSTACLE_IMG.add(temp);
-			break;
-		case 6:
-			temp = loadImage(name);
-			Load.ORE_IMG.add(temp);
-			break;
-		case 7:
-			temp = loadImage(name);
-			Load.QUAKE_IMG.add(temp);
-			break;
-		case 8:
-			temp = loadImage(name);
-			Load.BGND_IMG.add(temp);
-			break;
-		case 9:
-			temp = loadImage(name);
-			Load.VEIN_IMG.add(temp);
+		case 'd':
+			deltaX++;
 			break;
 		}
-	}	
+		delta[0]=deltaX;
+		delta[1]=deltaY;
+		view.updateView(delta);
+		
+	}
 	public static void main(String _args[]) {
 		PApplet.main(new String[] { CPE102ProjectWGUI.class.getName() });
 	}

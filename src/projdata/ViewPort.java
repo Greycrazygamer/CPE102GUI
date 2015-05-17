@@ -28,10 +28,15 @@ public class ViewPort
 	{
 		return topLeft;
 	}
+	
+	public void printOrigin()
+	{
+		System.out.print("x:"+ topLeft.getX() + " " + "y:" + topLeft.getY());
+	}
 
 	public boolean containsPoint(Point entPt)
 	{
-		return (topLeft.getX()<= entPt.getX() && entPt.getX() <= width
-		&& topLeft.getY()<= entPt.getY() && entPt.getY() <= height);
+		return (topLeft.getX()<= entPt.getX() && entPt.getX() <= (width+topLeft.getX())
+		&& topLeft.getY()<= entPt.getY() && entPt.getY() <= (height+topLeft.getY()));
 	}
 }
