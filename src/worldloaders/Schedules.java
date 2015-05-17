@@ -27,19 +27,22 @@ public class Schedules
 	
 	public static Action createEntityDeathAction(WorldModel world, Actionable entity)
 	{
-		Action<Long> creator= (Long ticks) -> 
+		Action[] func= {null};
+		func[0]= (long ticks) -> 
 		{
-			//entity.removePendingAction();
+			//entity.removePendingAction(action);
 			Point pt= entity.getPosition();
 			world.remove_entity(entity);
 			};
-		return creator;
+		return func[0];
 	}
 	
 	public static Action createAnimationAction(WorldModel world, Actionable entity, int repeat_count)
 	{
-		Action<Long> creator= (Long ticks) ->
+		Action[] func = {null};
+		func[0]= (long ticks) ->
 		{
+			entity.removePendingAction(func[0]);
 			Point[] temp= new Point[0];
 			
 			entity.nextImage();
@@ -50,7 +53,7 @@ public class Schedules
 			}
 			
 		};
-		return creator;
+		return func[0];
 	}
 	
 	public static Point findOpenAround(WorldModel world, Point pt, int distance)

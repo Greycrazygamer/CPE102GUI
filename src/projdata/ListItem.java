@@ -1,11 +1,13 @@
 package projdata;
 
+import worldloaders.Action;
+
 public class ListItem
 {
-	private Object item;
-	private int ord;
+	private Action item;
+	private long ord;
 	
-	public ListItem(Object item, int ord)
+	public ListItem(Action item, long ord)
 	{
 		this.item= item;
 		this.ord= ord;
@@ -16,12 +18,13 @@ public class ListItem
 		return this.item == b.item && this.ord == b.ord;
 	}
 	
-	public int getOrd()
+	public long getOrd()
 	{
 		return this.ord;
 	}
 	
-	public Object getItem()
+	
+	public Action getItem()
 	{
 		return this.item;
 	}

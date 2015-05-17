@@ -83,10 +83,21 @@ public class WorldView
 	}
 	
 	
-//	public void updateViewTiles(List<Point> tiles)
-//	{
-//		ArrayList rects = new ArrayList<>();
-//	}
+	public void updateViewTiles(List<Point> tiles)
+	{
+		
+		for (Point tile: tiles)
+		{
+			if (viewPort.containsPoint(tile))
+			{
+				Point vPt= this.worldToViewpoint(tile);
+				PImage img = this.getTileImage(vPt);
+				this.drawTile(img, vPt);
+			}
+		}
+		
+	
+	}
 	
 	public PImage getTileImage(Point tilePt)
 	{

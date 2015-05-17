@@ -44,26 +44,8 @@ public class DataTests
 		assertTrue(pt1.adjacent(pt2));
 	}
 	
-	@Test
-	public void testListItem_eq_()
-	{
-		ListItem lt1= new ListItem(birdy, 6);
-		ListItem lt2= new ListItem(birdy, 6);
-		assertTrue(lt1.__eq__(lt2));
-		
-	}
-	@Test
-	public void testListItem_getOrd()
-	{
-		ListItem lt1= new ListItem(birdy, 6);
-		assertEquals(6, lt1.getOrd());
-	}
-	@Test
-	public void testListItem_getItem()
-	{
-		ListItem lt1= new ListItem(birdy, 6);
-		assertEquals(birdy, lt1.getItem());
-	}
+
+	
 	
 	@Test
 	public void testGrid_setCell()

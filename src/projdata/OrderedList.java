@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import projdata.ListItem;
+import worldloaders.Action;
 
 public class OrderedList
 {
@@ -10,10 +11,10 @@ public class OrderedList
 	
 	public OrderedList()
 	{
-		this.list = new ArrayList<ListItem>();
+		this.list = new ArrayList<>();
 	}
 	
-	public void insert(Object item, long time)
+	public void insert(Action item, long time)
 	{
 		int size= this.list.size();
 		int idx = 0;
@@ -21,11 +22,11 @@ public class OrderedList
 		{
 			idx += 1;
 		}
-		
+		this.list.add(idx, new ListItem(item, time));
 		
 	}
 	
-	public void remove(Object item)
+	public void remove(Action item)
 	{
 		int size= this.list.size();
 		int idx = 0;
@@ -35,9 +36,29 @@ public class OrderedList
 		}
 		if (idx < size)
 		{
-			list.subList(idx, idx+1).clear();
+			list.set(idx, null);
 		}
 	}
 	
+	public ListItem head()
+	{
+		if (this.list != null)
+		{
+		 return this.list.get(0);
+		}
+		else
+		{return null;}
+	}
 	
+	public ListItem pop()
+	{
+		if (this.list != null)
+		{
+			ListItem temp= this.list.get(0);
+			this.list.remove(0);
+			return temp;
+		}
+		else
+		{return null;}
+	}
 }

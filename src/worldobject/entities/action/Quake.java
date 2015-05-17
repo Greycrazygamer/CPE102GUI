@@ -5,6 +5,8 @@ import java.util.List;
 
 import processing.core.PImage;
 import projdata.Point;
+import worldloaders.Schedules;
+import worldmodel.WorldModel;
 
 
 public class Quake
@@ -22,5 +24,12 @@ extends Actionable
 	{
 		return animationRate;
 	}
-
+	
+	public void scheduleQuake(WorldModel world, long ticks)
+	{
+		Schedules.scheduleAnimation(world, this);
+		Schedules.scheduleAction(world, this, 
+								Schedules.createEntityDeathAction(world, this),
+								ticks+ Schedules.QUAKE_DURATION);
+	}
 }

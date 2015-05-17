@@ -1,7 +1,7 @@
 package worldloaders;
 
 @FunctionalInterface
-public interface Action<Long> {
-	 public void make(Long s1);
+public interface Action {
+	 public void make(long s1);
 }
 

@@ -63,7 +63,8 @@ public class CPE102ProjectWGUI extends PApplet
 	public void draw() 
 	{
 		view.drawViewport();
-		
+		world.updateOnTime(System.currentTimeMillis());
+		//view.updateViewTiles(tiles);
 		// A simplified action scheduling handler
 	    long time = System.currentTimeMillis();
 	    if (time >= next_time)

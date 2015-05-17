@@ -8,12 +8,15 @@ import worldobject.WorldObject;
 import worldobject.entities.Entity;
 import worldobject.entities.Obstacle;
 import worldobject.entities.action.mover.Blob;
+import worldobject.entities.action.mover.Ore;
+import worldobject.entities.action.mover.Vein;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import processing.core.PImage;
+import projdata.ListItem;
 import projdata.OrderedList;
 import projdata.Grid;
 import projdata.Point;
@@ -38,6 +41,21 @@ public class WorldModel {
 		this.background = new Grid(num_cols, num_rows, backentity);
 		this.occupany = new Grid(num_cols, num_rows, null);
 		this.actionQueue = new OrderedList();
+	}
+	
+	public List<Action> updateOnTime(long ticks)
+	{
+		List<Action> tiles = new ArrayList<>();
+		ListItem next = this.actionQueue.head();
+		while ((next !=null) && next.getOrd()< ticks)
+		{
+			this.actionQueue.pop();
+			tiles.add(next.getItem());
+			next = this.actionQueue.head();
+		}
+		
+		return tiles;
+		
 	}
 	
 	public boolean within_bounds(Point pt)
@@ -194,5 +212,21 @@ public class WorldModel {
 		i1= i1*Schedules.BLOB_ANIMATION_RATE_SCALE;
 		Blob blob =new Blob(name, pt, rate, Load.BLOB_IMG, i1);
 		return blob;
+	}
+	
+	public Vein createVein(String name, Point pt, long ticks)
+	{
+		Random r = new Random();
+		int i1 = r.nextInt(Schedules.VEIN_RATE_MAX - Schedules.VEIN_RATE_MIN + 1) + Schedules.VEIN_RATE_MIN;
+		Vein vein = new Vein(name, i1, pt, Load.VEIN_IMG);
+		return vein;
+	}
+	
+	public Ore createOre(String name, Point pt, Long ticks)
+	{
+		Random r = new Random();
+		int i1 = r.nextInt(Schedules.VEIN_RATE_MAX - Schedules.VEIN_RATE_MIN + 1) + Schedules.ORE_CORRUPT_MIN;
+		Ore ore = new Ore(name, pt, Load.ORE_IMG, i1);
+		return ore;
 	}
 }
