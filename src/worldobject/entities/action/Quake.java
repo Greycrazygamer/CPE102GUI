@@ -27,7 +27,7 @@ extends Actionable
 	
 	public void scheduleQuake(WorldModel world, long ticks)
 	{
-		Schedules.scheduleAnimation(world, this);
+		Schedules.scheduleQuakeAnimation(world, this, Schedules.QUAKE_STEPS);
 		Schedules.scheduleAction(world, this, 
 								Schedules.createEntityDeathAction(world, this),
 								ticks+ Schedules.QUAKE_DURATION);

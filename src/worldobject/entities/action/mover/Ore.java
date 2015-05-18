@@ -5,20 +5,56 @@ import java.util.List;
 import processing.core.PImage;
 import projdata.Point;
 import projdata.Types;
+import worldloaders.Action;
+import worldloaders.Schedules;
+import worldmodel.WorldModel;
 
 
 public class Ore
 extends Mover
 {
-	
+	private int rate;
 	public Ore(String name, Point position, List<PImage> imgs, int rate)
 	{
 		super(name, position, rate, imgs);
+		this.rate= rate;
 		// TODO Auto-generated constructor stub
 	}
-
+	
+	public Ore(String name, Point position, List<PImage> imgs)
+	{
+		super(name, position, 5000, imgs);
+		// TODO Auto-generated constructor stub
+	}
+	
 	public Types getType()
 	{
 		return Types.ORE;
 	}
+	
+	public Action createOreTransformAction(WorldModel world)
+	{
+		Action[] func = {null};
+		func[0] = (long current_ticks) ->
+		{
+			this.removePendingAction(func[0]);
+			Blob blob = world.createBlob(getName() + " -- blob", 
+					this.getPosition(), 
+					this.getRate() / Schedules.BLOB_RATE_SCALE, 
+					current_ticks);
+			
+			Schedules.removeEntity(world, this);
+			world.add_entity(blob);
+		};
+		return func[0];
+	}
+	
+	public void scheduleOre(WorldModel world, long ticks)
+	{
+		Schedules.scheduleAction(world, this, 
+				this.createOreTransformAction(world),
+				ticks + this.getRate());
+	}
+	
+	
 }

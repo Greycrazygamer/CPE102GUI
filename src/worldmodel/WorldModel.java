@@ -7,6 +7,7 @@ import worldobject.Background;
 import worldobject.WorldObject;
 import worldobject.entities.Entity;
 import worldobject.entities.Obstacle;
+import worldobject.entities.action.Quake;
 import worldobject.entities.action.mover.Blob;
 import worldobject.entities.action.mover.Ore;
 import worldobject.entities.action.mover.Vein;
@@ -30,7 +31,7 @@ public class WorldModel {
 	private Grid background;
 	private Grid occupany;
 	private Background backentity;
-	private OrderedList actionQueue;
+	public OrderedList actionQueue;
 	
 	public WorldModel( int num_rows, int num_cols, Background backentity)
 	{
@@ -42,19 +43,16 @@ public class WorldModel {
 		this.occupany = new Grid(num_cols, num_rows, null);
 		this.actionQueue = new OrderedList();
 	}
-	
-	public List<Action> updateOnTime(long ticks)
+
+	public void updateOnTime(long ticks)
 	{
-		List<Action> tiles = new ArrayList<>();
-		ListItem next = this.actionQueue.head();
+		ListItem next = this.actionQueue.pop();
 		while ((next !=null) && next.getOrd()< ticks)
 		{
 			this.actionQueue.pop();
-			tiles.add(next.getItem());
-			next = this.actionQueue.head();
+			next.getItem().make(ticks);
 		}
 		
-		return tiles;
 		
 	}
 	
@@ -197,6 +195,7 @@ public class WorldModel {
 	
 	public void scheduleAction(Action thingtodo, long time)
 	{
+		System.out.println("hi");
 		this.actionQueue.insert(thingtodo, time);
 	}
 	
@@ -222,11 +221,18 @@ public class WorldModel {
 		return vein;
 	}
 	
-	public Ore createOre(String name, Point pt, Long ticks)
+	public Ore createOre(String name, Point pt, long ticks)
 	{
 		Random r = new Random();
 		int i1 = r.nextInt(Schedules.VEIN_RATE_MAX - Schedules.VEIN_RATE_MIN + 1) + Schedules.ORE_CORRUPT_MIN;
 		Ore ore = new Ore(name, pt, Load.ORE_IMG, i1);
 		return ore;
+	}
+	
+	public Quake createQuake(Point pt, long ticks)
+	{
+		Quake quake = new Quake("quake", pt, Load.QUAKE_IMG, Schedules.QUAKE_ANIMATION_RATE);
+		quake.scheduleQuake(this, ticks);
+		return quake;
 	}
 }

@@ -29,7 +29,7 @@ public class CPE102ProjectWGUI extends PApplet
 	public boolean RUN_AFTER_LOAD= true;
 		
 	
-	private long next_time;
+	private long next_time = 0;
 	private WorldView view;
 	private WorldModel world;
 	public Background DEFAULT_BACKGROUND;
@@ -63,19 +63,25 @@ public class CPE102ProjectWGUI extends PApplet
 	public void draw() 
 	{
 		view.drawViewport();
-		world.updateOnTime(System.currentTimeMillis());
-		//view.updateViewTiles(tiles);
+		
 		// A simplified action scheduling handler
 	    long time = System.currentTimeMillis();
 	    if (time >= next_time)
 	    {
+	    	//handeTimerEvent(world);
+	    	System.out.println(world.actionQueue.getList());
 	      // perform actions previous to current time
+	    	next_time = System.currentTimeMillis() +1000;
 	    }
 	         
 
 		
 	}
 	
+	public void handeTimerEvent(WorldModel world)
+	{
+		world.updateOnTime(System.currentTimeMillis());
+	}
 	
 	
 	public void keyPressed()

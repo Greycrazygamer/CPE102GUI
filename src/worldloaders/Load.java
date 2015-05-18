@@ -275,7 +275,7 @@ public class Load
 			
 			public static Entity CreateObstacle(String[] properties)
 			{
-				if (properties.length== SMITH_NUM_PROPERTIES)
+				if (properties.length== OBSTACLE_NUM_PROPERTIES)
 				{
 					Entity obstacle = new Obstacle(properties[OBSTACLE_NAME],
 							new Point(Integer.parseInt(properties[OBSTACLE_COL]), Integer.parseInt(properties[OBSTACLE_ROW])),
@@ -367,7 +367,7 @@ public class Load
 					break;
 				case 4:
 					temp = screen.loadImage(name);
-					PImage temp2= Load.setAlpha(temp, screen.color(255, 255, 255), 0);
+					PImage temp2= Load.setAlpha(temp, screen.color(252, 252, 252), 0);
 					Load.MINER_IMG.add(temp2);
 					break;
 				case 5:

@@ -14,6 +14,11 @@ public class OrderedList
 		this.list = new ArrayList<>();
 	}
 	
+	public ArrayList<ListItem> getList()
+	{
+		return this.list;
+	}
+	
 	public void insert(Action item, long time)
 	{
 		int size= this.list.size();

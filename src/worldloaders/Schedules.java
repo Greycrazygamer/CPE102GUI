@@ -5,6 +5,9 @@ import worldmodel.WorldModel;
 import worldobject.entities.Entity;
 import worldobject.entities.action.Actionable;
 import worldobject.entities.action.Quake;
+import worldobject.entities.action.mover.Blob;
+import worldobject.entities.action.mover.Mover;
+import worldobject.entities.action.mover.miner.Miner;
 
 public class Schedules
 {
@@ -73,6 +76,7 @@ public class Schedules
 	}
 	public static void scheduleAction(WorldModel world, Actionable entity, Action thingtodo, Long time)
 	{
+		System.out.println("fun");
 		entity.addPendingAction(thingtodo);
 		world.scheduleAction(thingtodo, time);
 	}
@@ -84,14 +88,21 @@ public class Schedules
 				(long) entity.getAnimationRate());
 	}
 	
-	public static void scheduleAnimation(WorldModel world, Quake entity)
+	public static void scheduleBlobAnimation(WorldModel world, Blob entity)
 	{
 		Schedules.scheduleAction(world, entity,
 				Schedules.createAnimationAction(world, entity, 0), 
-				(long) entity.getAnimationRate());
+				 (long) entity.getAnimationRate());
 	}
 	
-	public void clearPendingActions(WorldModel world, Actionable entity)
+	public static void scheduleMinerAnimation(WorldModel world, Miner entity)
+	{
+		Schedules.scheduleAction(world, entity,
+				Schedules.createAnimationAction(world, entity, 0), 
+				 (long) entity.getAnimationRate());
+	}
+	
+	public static void clearPendingActions(WorldModel world, Actionable entity)
 	{
 		for (Action a: entity.getPendingActions())
 		{
@@ -100,7 +111,7 @@ public class Schedules
 		entity.clearPendingActions();
 	}
 	
-	public void removeEntity(WorldModel world, Actionable entity)
+	public static void removeEntity(WorldModel world, Actionable entity)
 	{
 		for( Action a: entity.getPendingActions())
 		{
