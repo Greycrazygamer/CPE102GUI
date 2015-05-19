@@ -46,11 +46,19 @@ public class WorldModel {
 
 	public void updateOnTime(long ticks)
 	{
-		ListItem next = this.actionQueue.pop();
+		ListItem next = this.actionQueue.head();
+		
 		while ((next !=null) && next.getOrd()< ticks)
 		{
-			this.actionQueue.pop();
-			next.getItem().make(ticks);
+			System.out.println(this.actionQueue.getSize());
+			
+			if (this.actionQueue.getSize()==38)
+			{
+				break;
+			}
+		
+			next.getItem().run(ticks);
+			
 		}
 		
 		
@@ -195,7 +203,6 @@ public class WorldModel {
 	
 	public void scheduleAction(Action thingtodo, long time)
 	{
-		System.out.println("hi");
 		this.actionQueue.insert(thingtodo, time);
 	}
 	

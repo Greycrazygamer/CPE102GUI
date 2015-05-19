@@ -47,20 +47,17 @@ extends Mover
 		func[0]= (long current_ticks) ->
 		{
 			this.removePendingAction(func[0]);
-			List<Point> tiles= new ArrayList<>();
+			System.out.println("help");
 			Point openPt= Schedules.findOpenAround(world, this.getPosition(), this.getReach());
 			if (openPt != null)
 			{
-				Ore ore =world.createOre("ore -" + this.getName() + " - " + current_ticks,
+				
+				Ore ore =world.createOre("ore -" + this.getName() + " - " + String.valueOf(current_ticks),
 						openPt, current_ticks);
 				world.add_entity(ore);
-				tiles.add(openPt);
 			}
-			else
-			{
-				tiles.clear();
-			}
-			Schedules.scheduleAction(world, this, func[0], current_ticks + this.getRate());
+			
+			Schedules.scheduleAction(world, this, this.createVeinAction(world), current_ticks + this.getRate());
 			
 		};
 		return func[0];
@@ -69,6 +66,7 @@ extends Mover
 	
 	public void scheduleVein(WorldModel world, long ticks)
 	{
+		
 		Schedules.scheduleAction(world, this, this.createVeinAction(world), ticks + this.getRate());
 	}
 }

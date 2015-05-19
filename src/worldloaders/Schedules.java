@@ -33,31 +33,14 @@ public class Schedules
 		Action[] func= {null};
 		func[0]= (long ticks) -> 
 		{
-			//entity.removePendingAction(action);
+			entity.removePendingAction(func[0]);
 			Point pt= entity.getPosition();
 			world.remove_entity(entity);
 			};
 		return func[0];
 	}
 	
-	public static Action createAnimationAction(WorldModel world, Actionable entity, int repeat_count)
-	{
-		Action[] func = {null};
-		func[0]= (long ticks) ->
-		{
-			entity.removePendingAction(func[0]);
-			Point[] temp= new Point[0];
-			
-			entity.nextImage();
-			
-			if (repeat_count != 1)
-			{
-				
-			}
-			
-		};
-		return func[0];
-	}
+	
 	
 	public static Point findOpenAround(WorldModel world, Point pt, int distance)
 	{
@@ -74,9 +57,8 @@ public class Schedules
 		}
 		return null;
 	}
-	public static void scheduleAction(WorldModel world, Actionable entity, Action thingtodo, Long time)
+	public static void scheduleAction(WorldModel world, Actionable entity, Action thingtodo, long time)
 	{
-		System.out.println("fun");
 		entity.addPendingAction(thingtodo);
 		world.scheduleAction(thingtodo, time);
 	}
@@ -84,24 +66,82 @@ public class Schedules
 	public static void scheduleQuakeAnimation(WorldModel world, Quake entity, int repeat_count)
 	{
 		Schedules.scheduleAction(world, entity,
-				Schedules.createAnimationAction(world, entity, repeat_count), 
+				Schedules.createQuakeAnimationAction(world, entity, repeat_count), 
 				(long) entity.getAnimationRate());
 	}
 	
+	public static Action createQuakeAnimationAction(WorldModel world, Quake entity, int repeat_count)
+	{
+		Action[] func = {null};
+		func[0]= (long ticks) ->
+		{
+			entity.removePendingAction(func[0]);
+					
+			entity.nextImage();
+			
+			if (repeat_count != 1)
+			{
+				Schedules.scheduleAction(world, entity, 
+						Schedules.createQuakeAnimationAction(world, entity, Math.max(repeat_count-1, 0)), 
+						ticks + entity.getAnimationRate());
+			}
+			
+		};
+		return func[0];
+	}
 	public static void scheduleBlobAnimation(WorldModel world, Blob entity)
 	{
 		Schedules.scheduleAction(world, entity,
-				Schedules.createAnimationAction(world, entity, 0), 
+				Schedules.createBlobAnimationAction(world, entity, 0), 
 				 (long) entity.getAnimationRate());
+	}
+	public static Action createBlobAnimationAction(WorldModel world, Blob entity, int repeat_count)
+	{
+		Action[] func = {null};
+		func[0]= (long ticks) ->
+		{
+			entity.removePendingAction(func[0]);
+					
+			entity.nextImage();
+			
+			if (repeat_count != 1)
+			{
+				Schedules.scheduleAction(world, entity, 
+						Schedules.createBlobAnimationAction(world, entity, Math.max(repeat_count-1, 0)), 
+						ticks + entity.getAnimationRate());
+			}
+			
+		};
+		return func[0];
 	}
 	
 	public static void scheduleMinerAnimation(WorldModel world, Miner entity)
 	{
+		System.out.println("MinerScheduled");
 		Schedules.scheduleAction(world, entity,
-				Schedules.createAnimationAction(world, entity, 0), 
-				 (long) entity.getAnimationRate());
+				Schedules.createMinerAnimationAction(world, entity, 0), 
+				 entity.getAnimationRate());
 	}
 	
+	public static Action createMinerAnimationAction(WorldModel world, Miner entity, int repeat_count)
+	{
+		Action[] func = {null};
+		func[0]= (long ticks) ->
+		{
+			entity.removePendingAction(func[0]);
+					
+			entity.nextImage();
+			
+			if (repeat_count != 1)
+			{
+				Schedules.scheduleAction(world, entity, 
+						Schedules.createMinerAnimationAction(world, entity, Math.max(repeat_count-1, 0)), 
+						ticks + entity.getAnimationRate());
+			}
+			
+		};
+		return func[0];
+	}
 	public static void clearPendingActions(WorldModel world, Actionable entity)
 	{
 		for (Action a: entity.getPendingActions())

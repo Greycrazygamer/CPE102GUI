@@ -18,10 +18,10 @@ extends worldobject.entities.action.mover.Mover
 {
 	private int resource_limit;
 	private int resource_count;
-	private int animation_rate;
+	private long animation_rate;
 	
 	public Miner(String name, int resource_limit, 
-			Point position, int rate, List<PImage> imgs, int animation_rate)
+			Point position, int rate, List<PImage> imgs, long animation_rate)
 	{
 		super(name, position, rate, imgs);
 		this.resource_limit= resource_limit;
@@ -30,7 +30,7 @@ extends worldobject.entities.action.mover.Mover
 		
 	}
 
-	public int getAnimationRate()
+	public long getAnimationRate()
 	{
 		return this.animation_rate;
 	}
@@ -95,7 +95,6 @@ extends worldobject.entities.action.mover.Mover
 		{
 			this.removePendingAction(func[0]);
 			
-			Ore ore = (Ore) world.find_nearest(this.getPosition(), Types.ORE);
 			boolean found = this.startAction(world);
 			
 			Miner new_entity = this;
@@ -109,6 +108,11 @@ extends worldobject.entities.action.mover.Mover
 		};
 			
 		return func[0];
+	}
+	public void scheduleMiner(WorldModel world, long ticks)
+	{
+		world.scheduleAction(this.createMinerAction(world), ticks);
+		Schedules.scheduleMinerAnimation(world, this);
 	}
 	
 	public abstract boolean startAction(WorldModel world);

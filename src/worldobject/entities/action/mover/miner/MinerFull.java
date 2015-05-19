@@ -18,7 +18,7 @@ extends Miner
 {
 
 	public MinerFull(String name, int resource_limit, Point position, int rate,
-			List<PImage> imgs, int animation_rate)
+			List<PImage> imgs, long animation_rate)
 	{
 		super(name, resource_limit, position, rate, imgs, animation_rate);
 		// TODO Auto-generated constructor stub

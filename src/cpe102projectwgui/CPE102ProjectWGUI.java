@@ -55,7 +55,7 @@ public class CPE102ProjectWGUI extends PApplet
 		Load.imageLoad(IMAGE_FILE, this);
 		
 		
-		Load.LoadWorld(world, WORLD_FILE, RUN_AFTER_LOAD);
+		Load.LoadWorld(world, WORLD_FILE, RUN_AFTER_LOAD, System.currentTimeMillis());
 		
 		view.drawViewport();
 	}
@@ -68,8 +68,8 @@ public class CPE102ProjectWGUI extends PApplet
 	    long time = System.currentTimeMillis();
 	    if (time >= next_time)
 	    {
-	    	//handeTimerEvent(world);
-	    	System.out.println(world.actionQueue.getList());
+	    	world.updateOnTime(time);
+	    	
 	      // perform actions previous to current time
 	    	next_time = System.currentTimeMillis() +1000;
 	    }
@@ -78,12 +78,7 @@ public class CPE102ProjectWGUI extends PApplet
 		
 	}
 	
-	public void handeTimerEvent(WorldModel world)
-	{
-		world.updateOnTime(System.currentTimeMillis());
-	}
-	
-	
+		
 	public void keyPressed()
 	{
 		int deltaX= 0;

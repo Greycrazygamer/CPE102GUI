@@ -19,6 +19,10 @@ public class OrderedList
 		return this.list;
 	}
 	
+	public int getSize()
+	{
+		return this.list.size();
+	}
 	public void insert(Action item, long time)
 	{
 		int size= this.list.size();
@@ -33,9 +37,10 @@ public class OrderedList
 	
 	public void remove(Action item)
 	{
+		System.out.println("remove");
 		int size= this.list.size();
 		int idx = 0;
-		while (idx < size && this.list.get(idx).getItem() != item)
+		while (idx < size && !this.list.get(idx).getItem().equals(item))
 		{
 			idx += 1;
 		}
@@ -47,18 +52,23 @@ public class OrderedList
 	
 	public ListItem head()
 	{
+		
 		if (this.list != null)
 		{
 		 return this.list.get(0);
 		}
 		else
-		{return null;}
+		{
+			System.out.println("nothing");
+			return null;
+		}
 	}
 	
 	public ListItem pop()
 	{
 		if (this.list != null)
 		{
+			System.out.println("pop");
 			ListItem temp= this.list.get(0);
 			this.list.remove(0);
 			return temp;

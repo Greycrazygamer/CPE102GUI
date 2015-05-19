@@ -83,7 +83,7 @@ public class Load
 			public static int VEIN_REACH = 5;
 			public static List<PImage> VEIN_IMG= new ArrayList<>();
 			        
-			public static void LoadWorld(WorldModel world, String filename)
+			public static void LoadWorld(WorldModel world, String filename, long ticks)
 			{
 				boolean run = false;
 				Scanner reader= null;
@@ -107,7 +107,7 @@ public class Load
 						}
 						else
 						{
-							AddEntity(world, properties, run);
+							AddEntity(world, properties, run, ticks);
 						}
 					}
 					
@@ -115,7 +115,7 @@ public class Load
 				reader.close();
 			}
 			
-			public static void LoadWorld(WorldModel world, String filename, boolean run)
+			public static void LoadWorld(WorldModel world, String filename, boolean run, long ticks)
 			{
 				Scanner reader= null;
 				try {
@@ -131,12 +131,11 @@ public class Load
 					{
 						if (properties[PROPERTY_KEY].equals(BGND_KEY))
 						{
-							//System.out.println("help");
 							AddBackground(world, properties);
 						}
 						else
 						{
-							AddEntity(world, properties,run);
+							AddEntity(world, properties,run, ticks);
 						}
 					}
 					
@@ -162,45 +161,72 @@ public class Load
 				}
 			}
 			
-			public static void AddEntity(WorldModel world, String[] properties, Boolean run)
+			public static void AddEntity(WorldModel world, String[] properties, Boolean run, long ticks)
 			{
 				Entity newEntity= CreateFromProperties(properties);
+				
 				if (newEntity !=null)
 				{
 					world.add_entity(newEntity);
 					if(run)
 					{
-						//schedule_entity(world, newEntity, images);
+					Load.scheduleEntity(world, newEntity, ticks);
 					}
+				}
+			}
+			
+			public static void scheduleEntity(WorldModel world, Entity entity, long ticks)
+			{
+				if (entity.getType()== Types.MINER)
+				{
+					System.out.println("MinerScheduled");
+					Miner new_entity = (Miner) entity;
+					new_entity.scheduleMiner(world, ticks);
+				}
+				else if(entity.getType()== Types.VEIN)
+				{
+					System.out.println("VeinScheduled");
+					Vein new_entity = (Vein) entity;
+					new_entity.scheduleVein(world, ticks);
+				}
+				else if(entity.getType()== Types.ORE)
+				{
+					System.out.println("OreScheduled");
+					Ore new_entity= (Ore) entity;
+					new_entity.scheduleOre(world, ticks);
 				}
 			}
 			
 			public static Entity CreateFromProperties(String[] properties)
 			{
 				String key = properties[PROPERTY_KEY];
+				//System.out.println( key);
 				if (properties != null)
 				{
 					
 					if (key.equals(MINER_KEY))
 					{
-						
-						return CreateMiner(properties);
+						System.out.println("new Miner");
+						return Load.CreateMiner(properties);
 					}
 					else if (key.equals(VEIN_KEY))
 					{
-						return CreateVein(properties);
+						System.out.println("new Vein");
+						return Load.CreateVein(properties);
 					}
 					else if (key.equals(ORE_KEY))
 					{
-						return CreateOre(properties);
+						System.out.println("new Ore");
+						return Load.CreateOre(properties);
 					}
 					else if (key.equals(SMITH_KEY))
 					{
-						return CreateBlacksmith(properties);
+						System.out.println("new Smith");
+						return Load.CreateBlacksmith(properties);
 					}
 					else if (key.equals(OBSTACLE_KEY))
 					{
-						return CreateObstacle(properties);
+						return Load.CreateObstacle(properties);
 					}
 				}
 				return null;
@@ -289,21 +315,7 @@ public class Load
 				}
 			}
 			
-			public static void scheduleEntity(WorldModel world, Mover entity)
-			{
-				if (entity.getType()== Types.MINERNOTFULL)
-				{
-					
-				}
-				else if(entity.getType()== Types.VEIN)
-				{
-					
-				}
-				else if(entity.getType()== Types.ORE)
-				{
-					
-				}
-			}
+			
 			
 			public static void imageLoad(String imagelist, PApplet screen)
 			{
