@@ -43,13 +43,13 @@ public class OrderedList
 //		System.out.println("remove");
 		int size= this.list.size();
 		int idx = 0;
-		while (idx < size && this.list.get(idx) != (item))
+		while (idx < size && this.list.get(idx).getItem() != (item))
 		{
 			idx += 1;
 		}
 		if (idx < size)
 		{
-			list.set(idx, null);
+			list.remove(idx);
 		}
 	}
 	

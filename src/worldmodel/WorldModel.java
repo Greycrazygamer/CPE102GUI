@@ -189,6 +189,7 @@ public class WorldModel {
 	
 	public  Entity get_tile_occupant(Point pt)
 	{
+		System.out.println(pt.getX());
 		if (this.within_bounds(pt))
 		{
 			return (Entity) occupany.getCell(pt);

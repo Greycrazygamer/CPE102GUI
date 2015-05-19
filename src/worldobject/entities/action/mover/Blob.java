@@ -71,10 +71,9 @@ extends Mover
 		else
 		{
 			Point newPt= this.blobNextPosition(world, vein.getPosition());
-			System.out.println(newPt.getX());
 			Actionable oldEntity = (Actionable) world.get_tile_occupant(newPt);
 			System.out.println(oldEntity);
-			if (oldEntity.getType() == Types.ORE)
+			if (oldEntity instanceof Ore)
 			{
 				Schedules.removeEntity(world, oldEntity);
 			}

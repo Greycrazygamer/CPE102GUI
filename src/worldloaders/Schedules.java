@@ -92,6 +92,7 @@ public class Schedules
 	}
 	public static void scheduleBlobAnimation(WorldModel world, Blob entity)
 	{
+		
 		Schedules.scheduleAction(world, entity,
 				Schedules.createBlobAnimationAction(world, entity, 0), 
 				 entity.getAnimationRate());
@@ -101,6 +102,7 @@ public class Schedules
 		Action[] func = {null};
 		func[0]= (long ticks) ->
 		{
+			System.out.println("hit");
 			entity.removePendingAction(func[0]);
 					
 			entity.nextImage();
