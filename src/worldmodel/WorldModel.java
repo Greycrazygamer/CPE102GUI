@@ -50,14 +50,11 @@ public class WorldModel {
 		
 		while ((next !=null) && next.getOrd()< ticks)
 		{
-			System.out.println(this.actionQueue.getSize());
-			
-			if (this.actionQueue.getSize()==38)
-			{
-				break;
-			}
-		
+		//	System.out.println(this.actionQueue.getSize());
+					
 			next.getItem().run(ticks);
+			this.actionQueue.pop();
+			next = this.actionQueue.head();
 			
 		}
 		
@@ -91,6 +88,10 @@ public class WorldModel {
 			{
 				oftype.add(e);
 			}
+		}
+		if (oftype.size() == 0)
+		{
+				return null;
 		}
 		double smallest = oftype.get(0).getPosition().distance_sq(pt);
 		for (Entity i : oftype)
@@ -215,8 +216,9 @@ public class WorldModel {
 	{
 		Random r = new Random();
 		int i1 = r.nextInt(Schedules.BLOB_ANIMATION_MAX - Schedules.BLOB_ANIMATION_MIN + 1) + Schedules.BLOB_ANIMATION_MIN;
-		i1= i1*Schedules.BLOB_ANIMATION_RATE_SCALE;
-		Blob blob =new Blob(name, pt, rate, Load.BLOB_IMG, i1);
+		int i2= i1*Schedules.BLOB_ANIMATION_RATE_SCALE;
+		Blob blob =new Blob(name, pt, rate, Load.BLOB_IMG, i2);
+		blob.scheduleBlob(this, ticks);
 		return blob;
 	}
 	
@@ -231,8 +233,9 @@ public class WorldModel {
 	public Ore createOre(String name, Point pt, long ticks)
 	{
 		Random r = new Random();
-		int i1 = r.nextInt(Schedules.VEIN_RATE_MAX - Schedules.VEIN_RATE_MIN + 1) + Schedules.ORE_CORRUPT_MIN;
+		int i1 = r.nextInt(Schedules.ORE_CORRUPT_MAX - Schedules.ORE_CORRUPT_MIN + 1) + Schedules.ORE_CORRUPT_MIN;
 		Ore ore = new Ore(name, pt, Load.ORE_IMG, i1);
+		ore.scheduleOre(this, ticks);
 		return ore;
 	}
 	

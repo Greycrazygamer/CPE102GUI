@@ -34,10 +34,13 @@ extends Mover
 	
 	public Action createOreTransformAction(WorldModel world)
 	{
+		
+		
 		Action[] func = {null};
 		func[0] = (long current_ticks) ->
 		{
 			this.removePendingAction(func[0]);
+			System.out.println("BlobCreated");
 			Blob blob = world.createBlob(getName() + " -- blob", 
 					this.getPosition(), 
 					this.getRate() / Schedules.BLOB_RATE_SCALE, 
@@ -51,6 +54,7 @@ extends Mover
 	
 	public void scheduleOre(WorldModel world, long ticks)
 	{
+		System.out.println("help");
 		Schedules.scheduleAction(world, this, 
 				this.createOreTransformAction(world),
 				ticks + this.getRate());

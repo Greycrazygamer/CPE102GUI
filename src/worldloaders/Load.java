@@ -179,19 +179,19 @@ public class Load
 			{
 				if (entity.getType()== Types.MINER)
 				{
-					System.out.println("MinerScheduled");
+					System.out.println("MinerInitScheduled");
 					Miner new_entity = (Miner) entity;
 					new_entity.scheduleMiner(world, ticks);
 				}
 				else if(entity.getType()== Types.VEIN)
 				{
-					System.out.println("VeinScheduled");
+					System.out.println("VeinInitScheduled");
 					Vein new_entity = (Vein) entity;
 					new_entity.scheduleVein(world, ticks);
 				}
 				else if(entity.getType()== Types.ORE)
 				{
-					System.out.println("OreScheduled");
+					System.out.println("OreInitScheduled");
 					Ore new_entity= (Ore) entity;
 					new_entity.scheduleOre(world, ticks);
 				}
@@ -360,6 +360,7 @@ public class Load
 			{
 				int type = Integer.parseInt(line[0]);
 				PImage temp;
+				PImage temp2;
 				String name= line[1].trim();
 				//System.out.println(name);
 				switch (type)
@@ -379,7 +380,7 @@ public class Load
 					break;
 				case 4:
 					temp = screen.loadImage(name);
-					PImage temp2= Load.setAlpha(temp, screen.color(252, 252, 252), 0);
+					temp2= Load.setAlpha(temp, screen.color(252, 252, 252), 0);
 					Load.MINER_IMG.add(temp2);
 					break;
 				case 5:
@@ -388,7 +389,8 @@ public class Load
 					break;
 				case 6:
 					temp = screen.loadImage(name);
-					Load.ORE_IMG.add(temp);
+					temp2= Load.setAlpha(temp, screen.color(252, 252, 252), 0);
+					Load.ORE_IMG.add(temp2);
 					break;
 				case 7:
 					temp = screen.loadImage(name);

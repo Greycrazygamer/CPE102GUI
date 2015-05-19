@@ -30,6 +30,7 @@ public class CPE102ProjectWGUI extends PApplet
 		
 	
 	private long next_time = 0;
+	private long refresh=0;
 	private WorldView view;
 	private WorldModel world;
 	public Background DEFAULT_BACKGROUND;
@@ -62,16 +63,24 @@ public class CPE102ProjectWGUI extends PApplet
 
 	public void draw() 
 	{
-		view.drawViewport();
+		long time = System.currentTimeMillis();
+		if (time >= refresh)
+	    {
+			view.drawViewport();
+	    	
+	      // perform actions previous to current time
+	    	refresh = System.currentTimeMillis() +41;
+	    }
+		
 		
 		// A simplified action scheduling handler
-	    long time = System.currentTimeMillis();
+	    
 	    if (time >= next_time)
 	    {
 	    	world.updateOnTime(time);
 	    	
 	      // perform actions previous to current time
-	    	next_time = System.currentTimeMillis() +1000;
+	    	next_time = System.currentTimeMillis() +82;
 	    }
 	         
 

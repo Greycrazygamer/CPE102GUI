@@ -25,6 +25,10 @@ extends Miner
 	
 	public boolean minerToOre(WorldModel world, Ore ore)
 	{
+		if (ore ==null)
+		{
+			return false;
+		}
 		if (this.getPosition().adjacent(ore.getPosition()))
 		{
 			this.setResourceCount(1 + this.getResourceCount());
@@ -34,6 +38,7 @@ extends Miner
 		else
 		{
 			Point new_pt = this.nextPositon(world, ore.getPosition());
+			world.move_entity(this, new_pt);
 			return false;
 		}
 	}
@@ -47,7 +52,7 @@ extends Miner
 		
 		else
 		{
-			MinerFull new_entity = new MinerFull(
+			Miner new_entity = new MinerFull(
 					this.getName(), this.getResourceLimit(),
 					this.getPosition(), this.getRate(),
 					this.getImages(), this.getAnimationRate());

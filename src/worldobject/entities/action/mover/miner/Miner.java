@@ -93,6 +93,7 @@ extends worldobject.entities.action.mover.Mover
 		Action[] func = {null};
 		func[0]= (long current_ticks) ->
 		{
+			
 			this.removePendingAction(func[0]);
 			
 			boolean found = this.startAction(world);
@@ -100,8 +101,11 @@ extends worldobject.entities.action.mover.Mover
 			Miner new_entity = this;
 			if (found)
 			{
+				System.out.println("MinerCreated");
 				new_entity= this.tryTransformMiner(world, transformType(world));
+				System.out.println(new_entity);
 			}
+			
 			
 			Schedules.scheduleAction(world, new_entity, 
 					new_entity.createMinerAction(world), current_ticks + new_entity.getRate());

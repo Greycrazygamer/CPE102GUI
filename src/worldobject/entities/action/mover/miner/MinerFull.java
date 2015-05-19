@@ -41,13 +41,14 @@ extends Miner
 		else
 		{
 			Point newPt= this.nextPositon(world, smith_pt);
+			world.move_entity(this, newPt);
 			return false;
 		}
 	}
 	
-	public MinerNotFull tryTransformMinerFull(WorldModel world)
+	public Miner tryTransformMinerFull(WorldModel world)
 	{
-		MinerNotFull new_entity= new MinerNotFull(this.getName(), this.getResourceLimit(),
+		Miner new_entity= new MinerNotFull(this.getName(), this.getResourceLimit(),
 				this.getPosition(), this.getRate(), this.getImages(), this.getAnimationRate());
 		
 		return new_entity;

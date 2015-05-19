@@ -1,4 +1,5 @@
 package projdata;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +27,16 @@ public class OrderedList
 	public void insert(Action item, long time)
 	{
 		int size= this.list.size();
+		
 		int idx = 0;
+		if (this.list.size() >0)
+			{
+			System.out.println(this.list.get(idx).getOrd());
+			}
+			
 		while (idx < size && this.list.get(idx).getOrd() < time)
 		{
+			
 			idx += 1;
 		}
 		this.list.add(idx, new ListItem(item, time));
@@ -37,7 +45,7 @@ public class OrderedList
 	
 	public void remove(Action item)
 	{
-		System.out.println("remove");
+//		System.out.println("remove");
 		int size= this.list.size();
 		int idx = 0;
 		while (idx < size && !this.list.get(idx).getItem().equals(item))
@@ -68,7 +76,7 @@ public class OrderedList
 	{
 		if (this.list != null)
 		{
-			System.out.println("pop");
+			
 			ListItem temp= this.list.get(0);
 			this.list.remove(0);
 			return temp;

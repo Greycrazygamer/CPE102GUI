@@ -46,12 +46,12 @@ extends Mover
 		Action[] func = {null};
 		func[0]= (long current_ticks) ->
 		{
+			
 			this.removePendingAction(func[0]);
-			System.out.println("help");
 			Point openPt= Schedules.findOpenAround(world, this.getPosition(), this.getReach());
 			if (openPt != null)
 			{
-				
+				System.out.println("OreCreated");
 				Ore ore =world.createOre("ore -" + this.getName() + " - " + String.valueOf(current_ticks),
 						openPt, current_ticks);
 				world.add_entity(ore);

@@ -44,9 +44,9 @@ public class Schedules
 	
 	public static Point findOpenAround(WorldModel world, Point pt, int distance)
 	{
-		for(int y=0; (-1*distance) < y && y<(distance+1); y++)
+		for(int y=-1; y<=(distance); y++)
 		{
-			for(int x=0; (-1*distance) < y && y<(distance+1); x++)
+			for(int x=-1; x<=(distance); x++)
 			{
 				Point newPt= new Point(pt.getX()+x, pt.getY()+y);
 				if (world.within_bounds(newPt) && (!world.is_occupied(newPt)))
@@ -117,7 +117,7 @@ public class Schedules
 	
 	public static void scheduleMinerAnimation(WorldModel world, Miner entity)
 	{
-		System.out.println("MinerScheduled");
+		//System.out.println("MinerScheduled");
 		Schedules.scheduleAction(world, entity,
 				Schedules.createMinerAnimationAction(world, entity, 0), 
 				 entity.getAnimationRate());
