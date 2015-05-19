@@ -1,4 +1,4 @@
-package worldobject.entities.action.mover.miner;
+package worldobject.entities.action.animated.miner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import worldloaders.Action;
 import worldloaders.Schedules;
 import worldmodel.WorldModel;
 import worldobject.entities.Blacksmith;
-import worldobject.entities.action.mover.Ore;
+import worldobject.entities.action.Ore;
 
 
 public class MinerFull

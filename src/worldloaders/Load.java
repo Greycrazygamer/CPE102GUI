@@ -6,8 +6,8 @@ import worldobject.entities.Blacksmith;
 import worldobject.entities.Entity;
 import worldobject.entities.Obstacle;
 import worldobject.entities.action.*;
-import worldobject.entities.action.mover.*;
-import worldobject.entities.action.mover.miner.*;
+import worldobject.entities.action.animated.*;
+import worldobject.entities.action.animated.miner.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -372,7 +372,8 @@ public class Load
 					break;
 				case 2:
 					temp = screen.loadImage(name);
-					Load.BLOB_IMG.add(temp);
+					temp2= Load.setAlpha(temp, screen.color(255, 255, 255), 0);
+					Load.BLOB_IMG.add(temp2);
 					break;
 				case 3:
 					temp = screen.loadImage(name);
@@ -389,8 +390,7 @@ public class Load
 					break;
 				case 6:
 					temp = screen.loadImage(name);
-					temp2= Load.setAlpha(temp, screen.color(252, 252, 252), 0);
-					Load.ORE_IMG.add(temp2);
+					Load.ORE_IMG.add(temp);
 					break;
 				case 7:
 					temp = screen.loadImage(name);

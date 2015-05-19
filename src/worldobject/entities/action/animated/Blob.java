@@ -1,4 +1,4 @@
-package worldobject.entities.action.mover;
+package worldobject.entities.action.animated;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -14,25 +14,20 @@ import worldloaders.Schedules;
 import worldmodel.WorldModel;
 import worldobject.entities.Entity;
 import worldobject.entities.action.Actionable;
-import worldobject.entities.action.Quake;
+import worldobject.entities.action.Ore;
+import worldobject.entities.action.Vein;
 
 
 public class Blob
-extends Mover
+extends AnimatedEntity
 {
-	private long animationRate;
 	public Blob(String name, Point position, long rate, List<PImage> imgs, long animationRate)
 	{
-		super(name, position, rate, imgs);
-		this.animationRate= animationRate;
+		super(name, position, rate, animationRate, imgs);
+		
 		// TODO Auto-generated constructor stub
 	}
 	
-	public long getAnimationRate()
-	{
-		return this.animationRate;
-	}
-		
 	public Types getType()
 	{
 		return Types.BLOB;
@@ -65,7 +60,6 @@ extends Mover
 		}
 		if (this.getPosition().adjacent(vein.getPosition()))
 		{
-			Schedules.removeEntity(world, vein);
 			return true;
 		}
 		else
@@ -93,29 +87,24 @@ extends Mover
 			boolean found= this.blobToVein(world, vein);
 			
 			long nextTime = current_ticks + this.getRate();
-			
 			if(found)
 			{
 				Quake quake= world.createQuake(vein.getPosition(), current_ticks);
 				world.remove_entity(vein);
 				world.add_entity(quake);
 				nextTime = current_ticks + this.getRate()*2;
-				System.out.println(nextTime);
 			}
 			
-			Schedules.scheduleAction(world, this, 
-					this.createBlobAction(world), nextTime);
+			this.scheduleAction(world, this.createBlobAction(world), nextTime);
 			
 		};
 		
 		return func[0];
 	}
 	
-	public void scheduleBlob(WorldModel world, long ticks)
-	{
-		
-		Schedules.scheduleAction(world, this, 
-			this.createBlobAction(world), ticks + this.getRate());
-		//Schedules.scheduleBlobAnimation(world, this);
+	public void scheduleBlob(WorldModel world, Action action, long ticks)
+	{	
+		//this.scheduleAnimation(world, 0);
+		this.scheduleAction(world, this.createBlobAction(world), ticks);
 	}
 }

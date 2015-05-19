@@ -1,4 +1,4 @@
-package worldobject.entities.action.mover;
+package worldobject.entities.action;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,16 +8,15 @@ import projdata.Types;
 import worldloaders.Action;
 import worldloaders.Schedules;
 import worldmodel.WorldModel;
+import worldobject.entities.action.animated.Blob;
 
 
 public class Ore
-extends Mover
+extends Actionable
 {
-	private long rate;
 	public Ore(String name, Point position, List<PImage> imgs, long rate)
 	{
 		super(name, position, rate, imgs);
-		this.rate= rate;
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -41,8 +40,8 @@ extends Mover
 					this.getRate() / Schedules.BLOB_RATE_SCALE, 
 					current_ticks);
 			
-//			Schedules.removeEntity(world, this);
-//			world.add_entity(blob);
+			Schedules.removeEntity(world, this);
+			world.add_entity(blob);
 		};
 		return func[0];
 	}

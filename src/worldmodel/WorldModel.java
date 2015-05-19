@@ -7,10 +7,10 @@ import worldobject.Background;
 import worldobject.WorldObject;
 import worldobject.entities.Entity;
 import worldobject.entities.Obstacle;
-import worldobject.entities.action.Quake;
-import worldobject.entities.action.mover.Blob;
-import worldobject.entities.action.mover.Ore;
-import worldobject.entities.action.mover.Vein;
+import worldobject.entities.action.Ore;
+import worldobject.entities.action.Vein;
+import worldobject.entities.action.animated.Blob;
+import worldobject.entities.action.animated.Quake;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -221,7 +221,7 @@ public class WorldModel {
 		int i1 = r.nextInt(Schedules.BLOB_ANIMATION_MAX - Schedules.BLOB_ANIMATION_MIN + 1) + Schedules.BLOB_ANIMATION_MIN;
 		int i2= i1*Schedules.BLOB_ANIMATION_RATE_SCALE;
 		Blob blob =new Blob(name, pt, rate, Load.BLOB_IMG, i2);
-		blob.scheduleBlob(this, ticks);
+		blob.scheduleBlob(this, blob.createBlobAction(this),ticks);
 		return blob;
 	}
 	

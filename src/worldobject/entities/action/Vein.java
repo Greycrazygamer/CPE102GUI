@@ -1,4 +1,4 @@
-package worldobject.entities.action.mover;
+package worldobject.entities.action;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import worldmodel.WorldModel;
 
 
 public class Vein
-extends Mover
+extends Actionable
 {
 
 	private int reach;

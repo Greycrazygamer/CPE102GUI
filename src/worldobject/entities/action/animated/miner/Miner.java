@@ -1,4 +1,4 @@
-package worldobject.entities.action.mover.miner;
+package worldobject.entities.action.animated.miner;
 
 
 import java.util.ArrayList;
@@ -10,31 +10,24 @@ import projdata.Types;
 import worldloaders.Action;
 import worldloaders.Schedules;
 import worldmodel.WorldModel;
-import worldobject.entities.action.mover.Ore;
+import worldobject.entities.action.Ore;
 
 
 public abstract class Miner
-extends worldobject.entities.action.mover.Mover
+extends worldobject.entities.action.animated.AnimatedEntity
 {
 	private int resource_limit;
 	private int resource_count;
-	private long animation_rate;
-	
+		
 	public Miner(String name, int resource_limit, 
 			Point position, long rate, List<PImage> imgs, long animation_rate)
 	{
-		super(name, position, rate, imgs);
+		super(name, position, rate, animation_rate, imgs);
 		this.resource_limit= resource_limit;
 		this.resource_count= 2;
-		this.animation_rate= animation_rate;
-		
+			
 	}
 
-	public long getAnimationRate()
-	{
-		return this.animation_rate;
-	}
-	
 	public void setResourceCount(int n)
 	{
 		this.resource_count= n;

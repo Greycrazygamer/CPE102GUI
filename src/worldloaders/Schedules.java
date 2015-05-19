@@ -4,10 +4,10 @@ import projdata.Point;
 import worldmodel.WorldModel;
 import worldobject.entities.Entity;
 import worldobject.entities.action.Actionable;
-import worldobject.entities.action.Quake;
-import worldobject.entities.action.mover.Blob;
-import worldobject.entities.action.mover.Mover;
-import worldobject.entities.action.mover.miner.Miner;
+import worldobject.entities.action.animated.AnimatedEntity;
+import worldobject.entities.action.animated.Blob;
+import worldobject.entities.action.animated.Quake;
+import worldobject.entities.action.animated.miner.Miner;
 
 public class Schedules
 {
@@ -64,59 +64,6 @@ public class Schedules
 		world.scheduleAction(thingtodo, time);
 	}
 	
-	public static void scheduleQuakeAnimation(WorldModel world, Quake entity, int repeat_count)
-	{
-		Schedules.scheduleAction(world, entity,
-				Schedules.createQuakeAnimationAction(world, entity, repeat_count), 
-				entity.getAnimationRate());
-	}
-	
-	public static Action createQuakeAnimationAction(WorldModel world, Quake entity, int repeat_count)
-	{
-		Action[] func = {null};
-		func[0]= (long ticks) ->
-		{
-			entity.removePendingAction(func[0]);
-					
-			entity.nextImage();
-			
-			if (repeat_count != 1)
-			{
-				Schedules.scheduleAction(world, entity, 
-						Schedules.createQuakeAnimationAction(world, entity, Math.max(repeat_count-1, 0)), 
-						ticks + entity.getAnimationRate());
-			}
-			
-		};
-		return func[0];
-	}
-	public static void scheduleBlobAnimation(WorldModel world, Blob entity)
-	{
-		
-		Schedules.scheduleAction(world, entity,
-				Schedules.createBlobAnimationAction(world, entity, 0), 
-				 entity.getAnimationRate());
-	}
-	public static Action createBlobAnimationAction(WorldModel world, Blob entity, int repeat_count)
-	{
-		Action[] func = {null};
-		func[0]= (long ticks) ->
-		{
-			System.out.println("hit");
-			entity.removePendingAction(func[0]);
-					
-			entity.nextImage();
-			
-			if (repeat_count != 1)
-			{
-				Schedules.scheduleAction(world, entity, 
-						Schedules.createBlobAnimationAction(world, entity, Math.max(repeat_count-1, 0)), 
-						ticks + entity.getAnimationRate());
-			}
-			
-		};
-		return func[0];
-	}
 	
 	public static void scheduleMinerAnimation(WorldModel world, Miner entity)
 	{
@@ -125,7 +72,7 @@ public class Schedules
 				Schedules.createMinerAnimationAction(world, entity, 0), 
 				 entity.getAnimationRate());
 	}
-	
+		
 	public static Action createMinerAnimationAction(WorldModel world, Miner entity, int repeat_count)
 	{
 		Action[] func = {null};
