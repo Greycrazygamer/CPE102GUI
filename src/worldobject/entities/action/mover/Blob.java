@@ -4,6 +4,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hamcrest.core.IsInstanceOf;
+
 import processing.core.PImage;
 import projdata.Point;
 import projdata.Types;
@@ -18,15 +20,15 @@ import worldobject.entities.action.Quake;
 public class Blob
 extends Mover
 {
-	private int animationRate;
-	public Blob(String name, Point position, int rate, List<PImage> imgs, int animationRate)
+	private long animationRate;
+	public Blob(String name, Point position, long rate, List<PImage> imgs, long animationRate)
 	{
 		super(name, position, rate, imgs);
 		this.animationRate= animationRate;
 		// TODO Auto-generated constructor stub
 	}
 	
-	public int getAnimationRate()
+	public long getAnimationRate()
 	{
 		return this.animationRate;
 	}
@@ -42,12 +44,12 @@ extends Mover
 		Point newPt = new Point(this.getPosition().getX() + horiz, this.getPosition().getY());
 		
 		if (horiz == 0 || (world.is_occupied(newPt)
-				&& world.get_tile_occupant(newPt).getType() != Types.ORE))
+				&& !(world.get_tile_occupant(newPt) instanceof Ore)))
 		{
 			int vert = sign(destPt.getY() - this.getPosition().getY());
 			newPt = new Point(this.getPosition().getX(), this.getPosition().getY()+vert);
 			if(vert==0 ||(world.is_occupied(newPt)
-					&& world.get_tile_occupant(newPt).getType() != Types.ORE))
+					&& !(world.get_tile_occupant(newPt) instanceof Ore)))
 			{
 				newPt= this.getPosition();
 			}
@@ -55,23 +57,31 @@ extends Mover
 		return newPt;
 	}
 	
-	public ArrayList blobToVein(WorldModel world, Vein vein)
+	public boolean blobToVein(WorldModel world, Vein vein)
 	{	
+		if (vein == null)
+		{
+			return false;
+		}
 		if (this.getPosition().adjacent(vein.getPosition()))
 		{
 			Schedules.removeEntity(world, vein);
+			return true;
 		}
 		else
 		{
 			Point newPt= this.blobNextPosition(world, vein.getPosition());
+			System.out.println(newPt.getX());
 			Actionable oldEntity = (Actionable) world.get_tile_occupant(newPt);
+			System.out.println(oldEntity);
 			if (oldEntity.getType() == Types.ORE)
 			{
 				Schedules.removeEntity(world, oldEntity);
 			}
-			return world.move_entity(this, newPt);
+			world.move_entity(this, newPt);
+			return false;
 		}
-		return null;
+		
 	}
 	public Action createBlobAction(WorldModel world)
 	{
@@ -81,19 +91,21 @@ extends Mover
 			this.removePendingAction(func[0]);
 			
 			Vein vein = (Vein) world.find_nearest(getPosition(), Types.VEIN);
-			ArrayList points= this.blobToVein(world, vein);
+			boolean found= this.blobToVein(world, vein);
 			
-			long next_time = current_ticks + this.getRate() *2;
+			long nextTime = current_ticks + this.getRate();
 			
-			if(points == null)
+			if(found)
 			{
 				Quake quake= world.createQuake(vein.getPosition(), current_ticks);
+				world.remove_entity(vein);
 				world.add_entity(quake);
-				long nextTime = current_ticks + this.getRate()*2;
+				nextTime = current_ticks + this.getRate()*2;
+				System.out.println(nextTime);
 			}
 			
 			Schedules.scheduleAction(world, this, 
-					this.createBlobAction(world), next_time);
+					this.createBlobAction(world), nextTime);
 			
 		};
 		
@@ -102,8 +114,9 @@ extends Mover
 	
 	public void scheduleBlob(WorldModel world, long ticks)
 	{
+		
 		Schedules.scheduleAction(world, this, 
 			this.createBlobAction(world), ticks + this.getRate());
-		Schedules.scheduleBlobAnimation(world, this);
+		//Schedules.scheduleBlobAnimation(world, this);
 	}
 }

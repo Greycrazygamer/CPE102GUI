@@ -139,6 +139,7 @@ public class WorldModel {
 	
 	public void remove_entity(Entity entity)
 	{
+		
 		this.remove_entity_at(entity.getPosition());
 	}
 	
@@ -204,6 +205,7 @@ public class WorldModel {
 	
 	public void scheduleAction(Action thingtodo, long time)
 	{
+		
 		this.actionQueue.insert(thingtodo, time);
 	}
 	
@@ -212,7 +214,7 @@ public class WorldModel {
 		this.actionQueue.remove(thingtodo);
 	}
 	
-	public Blob createBlob(String name, Point pt, int rate, long ticks)
+	public Blob createBlob(String name, Point pt, long rate, long ticks)
 	{
 		Random r = new Random();
 		int i1 = r.nextInt(Schedules.BLOB_ANIMATION_MAX - Schedules.BLOB_ANIMATION_MIN + 1) + Schedules.BLOB_ANIMATION_MIN;

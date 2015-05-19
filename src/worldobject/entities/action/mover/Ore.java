@@ -13,17 +13,11 @@ import worldmodel.WorldModel;
 public class Ore
 extends Mover
 {
-	private int rate;
-	public Ore(String name, Point position, List<PImage> imgs, int rate)
+	private long rate;
+	public Ore(String name, Point position, List<PImage> imgs, long rate)
 	{
 		super(name, position, rate, imgs);
 		this.rate= rate;
-		// TODO Auto-generated constructor stub
-	}
-	
-	public Ore(String name, Point position, List<PImage> imgs)
-	{
-		super(name, position, 5000, imgs);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -39,22 +33,24 @@ extends Mover
 		Action[] func = {null};
 		func[0] = (long current_ticks) ->
 		{
+			
 			this.removePendingAction(func[0]);
-			System.out.println("BlobCreated");
+			//System.out.println("BlobCreated");
 			Blob blob = world.createBlob(getName() + " -- blob", 
 					this.getPosition(), 
 					this.getRate() / Schedules.BLOB_RATE_SCALE, 
 					current_ticks);
 			
-			Schedules.removeEntity(world, this);
-			world.add_entity(blob);
+//			Schedules.removeEntity(world, this);
+//			world.add_entity(blob);
 		};
 		return func[0];
 	}
 	
 	public void scheduleOre(WorldModel world, long ticks)
 	{
-		System.out.println("help");
+		System.out.println(ticks);
+		System.out.println(this.getRate());
 		Schedules.scheduleAction(world, this, 
 				this.createOreTransformAction(world),
 				ticks + this.getRate());

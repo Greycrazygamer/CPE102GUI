@@ -23,7 +23,7 @@ public class Schedules
 	public static int QUAKE_DURATION = 1100;
 	public static int QUAKE_ANIMATION_RATE = 100;
            
-	public static int VEIN_SPAWN_DELAY = 500;
+	public static int VEIN_SPAWN_DELAY = 400;
 	public static int VEIN_RATE_MIN = 8000;
 	public static int VEIN_RATE_MAX = 17000;
 
@@ -59,6 +59,7 @@ public class Schedules
 	}
 	public static void scheduleAction(WorldModel world, Actionable entity, Action thingtodo, long time)
 	{
+		//System.out.println(time);
 		entity.addPendingAction(thingtodo);
 		world.scheduleAction(thingtodo, time);
 	}
@@ -67,7 +68,7 @@ public class Schedules
 	{
 		Schedules.scheduleAction(world, entity,
 				Schedules.createQuakeAnimationAction(world, entity, repeat_count), 
-				(long) entity.getAnimationRate());
+				entity.getAnimationRate());
 	}
 	
 	public static Action createQuakeAnimationAction(WorldModel world, Quake entity, int repeat_count)
@@ -93,7 +94,7 @@ public class Schedules
 	{
 		Schedules.scheduleAction(world, entity,
 				Schedules.createBlobAnimationAction(world, entity, 0), 
-				 (long) entity.getAnimationRate());
+				 entity.getAnimationRate());
 	}
 	public static Action createBlobAnimationAction(WorldModel world, Blob entity, int repeat_count)
 	{
@@ -117,7 +118,7 @@ public class Schedules
 	
 	public static void scheduleMinerAnimation(WorldModel world, Miner entity)
 	{
-		//System.out.println("MinerScheduled");
+		System.out.println("MinerAnimationsScheduled");
 		Schedules.scheduleAction(world, entity,
 				Schedules.createMinerAnimationAction(world, entity, 0), 
 				 entity.getAnimationRate());

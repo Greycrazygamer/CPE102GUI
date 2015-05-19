@@ -11,14 +11,14 @@ import projdata.Types;
 public class Mover
 extends worldobject.entities.action.Actionable
 {
-	private int rate;
-	public Mover(String name, Point position, int rate, List<PImage> imgs)
+	private long rate;
+	public Mover(String name, Point position, long rate, List<PImage> imgs)
 	{
 		super(name, position, imgs);
 		this.rate= rate;
 	}
 	
-	public int getRate()
+	public long getRate()
 	{
 		return this.rate;
 	}

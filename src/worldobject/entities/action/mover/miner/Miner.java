@@ -21,7 +21,7 @@ extends worldobject.entities.action.mover.Mover
 	private long animation_rate;
 	
 	public Miner(String name, int resource_limit, 
-			Point position, int rate, List<PImage> imgs, long animation_rate)
+			Point position, long rate, List<PImage> imgs, long animation_rate)
 	{
 		super(name, position, rate, imgs);
 		this.resource_limit= resource_limit;
@@ -74,13 +74,14 @@ extends worldobject.entities.action.mover.Mover
 		return new_pt;
 	}
 	
-	public Miner tryTransformMiner(WorldModel world, Miner transformed_Entity)
+	public Miner tryTransformMiner(WorldModel world)
 	{
-		Miner new_entity= transformed_Entity;
+		Miner new_entity= transformType(world);
 		if (this != new_entity)
 		{
+			
 			Schedules.clearPendingActions(world, this);
-			world.remove_entity_at(getPosition());
+			Schedules.removeEntity(world, this);
 			world.add_entity(new_entity);
 			Schedules.scheduleMinerAnimation(world, new_entity);
 		}
@@ -101,21 +102,20 @@ extends worldobject.entities.action.mover.Mover
 			Miner new_entity = this;
 			if (found)
 			{
-				System.out.println("MinerCreated");
-				new_entity= this.tryTransformMiner(world, transformType(world));
-				System.out.println(new_entity);
+				new_entity= this.tryTransformMiner(world);
+				
 			}
 			
-			
+			long temp = current_ticks + new_entity.getRate();
 			Schedules.scheduleAction(world, new_entity, 
-					new_entity.createMinerAction(world), current_ticks + new_entity.getRate());
+					new_entity.createMinerAction(world), temp);
 		};
 			
 		return func[0];
 	}
 	public void scheduleMiner(WorldModel world, long ticks)
 	{
-		world.scheduleAction(this.createMinerAction(world), ticks);
+		Schedules.scheduleAction(world, this, this.createMinerAction(world), ticks + this.getRate());
 		Schedules.scheduleMinerAnimation(world, this);
 	}
 	

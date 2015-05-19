@@ -24,22 +24,17 @@ public class OrderedList
 	{
 		return this.list.size();
 	}
-	public void insert(Action item, long time)
+	public void insert(Action item, long ord)
 	{
-		int size= this.list.size();
 		
+		int size= this.list.size();
 		int idx = 0;
-		if (this.list.size() >0)
-			{
-			System.out.println(this.list.get(idx).getOrd());
-			}
-			
-		while (idx < size && this.list.get(idx).getOrd() < time)
+					
+		while (idx < size && this.list.get(idx).getOrd() < ord)
 		{
-			
 			idx += 1;
 		}
-		this.list.add(idx, new ListItem(item, time));
+		this.list.add(idx, new ListItem(item, ord));
 		
 	}
 	
@@ -48,7 +43,7 @@ public class OrderedList
 //		System.out.println("remove");
 		int size= this.list.size();
 		int idx = 0;
-		while (idx < size && !this.list.get(idx).getItem().equals(item))
+		while (idx < size && this.list.get(idx) != (item))
 		{
 			idx += 1;
 		}

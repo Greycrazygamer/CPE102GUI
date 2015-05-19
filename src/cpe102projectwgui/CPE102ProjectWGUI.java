@@ -69,7 +69,7 @@ public class CPE102ProjectWGUI extends PApplet
 			view.drawViewport();
 	    	
 	      // perform actions previous to current time
-	    	refresh = System.currentTimeMillis() +41;
+	    	refresh = System.currentTimeMillis() +200;
 	    }
 		
 		
@@ -80,7 +80,7 @@ public class CPE102ProjectWGUI extends PApplet
 	    	world.updateOnTime(time);
 	    	
 	      // perform actions previous to current time
-	    	next_time = System.currentTimeMillis() +82;
+	    	next_time = System.currentTimeMillis() +200;
 	    }
 	         
 
