@@ -2,41 +2,48 @@ package projdata;
 
 public class ViewPort
 {
+	   private int row;
+	   private int col;
+	   private int numRows;
+	   private int numCols;
 
-	private int width;
-	private int height;
-	private Point topLeft;
-	
-	public ViewPort(int x, int y, int width, int height)
-	{
-		this.topLeft= new Point(x,y);
-		this.width= width;
-		this.height= height;
-	}
+	   public ViewPort(int numRows, int numCols)
+	   {
+	      this.row = 0;
+	      this.col = 0;
+	      this.numRows = numRows;
+	      this.numCols = numCols;
+	   }
 
-	public int getWidth()
-	{
-		return width;
-	}
+	   public int getRow()
+	   {
+	      return row;
+	   }
 
-	public int getHeight()
-	{
-		return height;
-	}
+	   public int getCol()
+	   {
+	      return col;
+	   }
 
-	public Point getTopLeft()
-	{
-		return topLeft;
-	}
-	
-	public void printOrigin()
-	{
-		System.out.print("x:"+ topLeft.getX() + " " + "y:" + topLeft.getY());
-	}
+	   public int getNumRows()
+	   {
+	      return numRows;
+	   }
 
-	public boolean containsPoint(Point entPt)
-	{
-		return (topLeft.getX()<= entPt.getX() && entPt.getX() <= (width+topLeft.getX())
-		&& topLeft.getY()<= entPt.getY() && entPt.getY() <= (height+topLeft.getY()));
+	   public int getNumCols()
+	   {
+	      return numCols;
+	   }
+
+	   public void shift(int newRow, int newCol)
+	   {
+	      this.row = newRow;
+	      this.col = newCol;
+	   }
+
+	   public boolean contains(Point p)
+	   {
+	      return p.getY() >= row && p.getY() < row + numRows &&
+	         p.getX() >= col && p.getX() < col + numCols;
+	   }
 	}
-}
