@@ -97,7 +97,7 @@ public class Load
 				while (reader.hasNextLine())
 				{
 					String[] properties= reader.nextLine().split("\\s");
-					System.out.println(properties);
+					
 					if (properties != null)
 					{
 						
@@ -200,7 +200,7 @@ public class Load
 			public static Entity CreateFromProperties(String[] properties)
 			{
 				String key = properties[PROPERTY_KEY];
-				//System.out.println( key);
+				
 				if (properties != null)
 				{
 					
@@ -362,7 +362,7 @@ public class Load
 				PImage temp;
 				PImage temp2;
 				String name= line[1].trim();
-				//System.out.println(name);
+				
 				switch (type)
 				{
 				case 1:
@@ -390,17 +390,20 @@ public class Load
 					break;
 				case 6:
 					temp = screen.loadImage(name);
-					Load.ORE_IMG.add(temp);
+					temp2= Load.setAlpha(temp, screen.color(201, 26, 26), 0);
+					Load.ORE_IMG.add(temp2);
 					break;
 				case 7:
 					temp = screen.loadImage(name);
-					Load.QUAKE_IMG.add(temp);
+					temp2= Load.setAlpha(temp, screen.color(255, 255, 255), 0);
+					Load.QUAKE_IMG.add(temp2);
 					break;
 				case 8:
 					temp = screen.loadImage(name);
 					Load.BGND_ROCK_IMG.add(temp);
 					break;
 				case 9:
+					
 					temp = screen.loadImage(name);
 					Load.VEIN_IMG.add(temp);
 					break;

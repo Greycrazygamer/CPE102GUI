@@ -62,7 +62,6 @@ public class OrderedList
 		}
 		else
 		{
-			System.out.println("nothing");
 			return null;
 		}
 	}

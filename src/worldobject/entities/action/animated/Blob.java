@@ -66,7 +66,6 @@ extends AnimatedEntity
 		{
 			Point newPt= this.blobNextPosition(world, vein.getPosition());
 			Actionable oldEntity = (Actionable) world.get_tile_occupant(newPt);
-			System.out.println(oldEntity);
 			if (oldEntity instanceof Ore)
 			{
 				Schedules.removeEntity(world, oldEntity);
@@ -104,7 +103,7 @@ extends AnimatedEntity
 	
 	public void scheduleBlob(WorldModel world, Action action, long ticks)
 	{	
-		//this.scheduleAnimation(world, 0);
+		this.scheduleAnimation(world, 0);
 		this.scheduleAction(world, this.createBlobAction(world), ticks);
 	}
 }

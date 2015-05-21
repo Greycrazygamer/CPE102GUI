@@ -50,10 +50,10 @@ public class WorldModel {
 		
 		while ((next !=null) && next.getOrd()< ticks)
 		{
-		//	System.out.println(this.actionQueue.getSize());
-					
-			next.getItem().run(ticks);
+			
+			
 			this.actionQueue.pop();
+			next.getItem().run(ticks);
 			next = this.actionQueue.head();
 			
 		}
@@ -189,7 +189,6 @@ public class WorldModel {
 	
 	public  Entity get_tile_occupant(Point pt)
 	{
-		System.out.println(pt.getX());
 		if (this.within_bounds(pt))
 		{
 			return (Entity) occupany.getCell(pt);

@@ -71,6 +71,7 @@ public class WorldView
 			{
 				
 				Point vPt= this.worldToViewpoint(e.getPosition());
+				
 				this.drawTile(e.getImage(), vPt);
 			}
 		}
@@ -136,7 +137,6 @@ public class WorldView
 	public ViewPort createShiftedViewport(int[] delta)
 	{
 		int new_x= clamp(this.viewPort.getTopLeft().getX() + delta[0], 0, this.numCols - this.viewPort.getWidth());
-		//System.out.println(new_x);
 		int new_y= clamp(this.viewPort.getTopLeft().getY() + delta[1], 0, this.numRows - this.viewPort.getHeight());
 		return new ViewPort(new_x, new_y, this.viewPort.getWidth(), this.viewPort.getHeight());
 	}

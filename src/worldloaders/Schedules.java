@@ -59,7 +59,7 @@ public class Schedules
 	}
 	public static void scheduleAction(WorldModel world, Actionable entity, Action thingtodo, long time)
 	{
-		//System.out.println(time);
+		
 		entity.addPendingAction(thingtodo);
 		world.scheduleAction(thingtodo, time);
 	}
@@ -67,8 +67,7 @@ public class Schedules
 	
 	public static void scheduleMinerAnimation(WorldModel world, Miner entity)
 	{
-		System.out.println("MinerAnimationsScheduled");
-		Schedules.scheduleAction(world, entity,
+				Schedules.scheduleAction(world, entity,
 				Schedules.createMinerAnimationAction(world, entity, 0), 
 				 entity.getAnimationRate());
 	}
