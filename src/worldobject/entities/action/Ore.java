@@ -40,7 +40,7 @@ extends Actionable
 					this.getRate() / Schedules.BLOB_RATE_SCALE, 
 					current_ticks);
 			
-			Schedules.removeEntity(world, this);
+			this.removeEntity(world);
 			world.add_entity(blob);
 		};
 		return func[0];

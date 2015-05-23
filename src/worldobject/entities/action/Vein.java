@@ -56,8 +56,8 @@ extends Actionable
 						openPt, current_ticks);
 				world.add_entity(ore);
 			}
-			
-			Schedules.scheduleAction(world, this, this.createVeinAction(world), current_ticks + this.getRate());
+			this.scheduleAction(world, this.createVeinAction(world), current_ticks + this.getRate());
+			//Schedules.scheduleAction(world, this, this.createVeinAction(world), current_ticks + this.getRate());
 			
 		};
 		return func[0];

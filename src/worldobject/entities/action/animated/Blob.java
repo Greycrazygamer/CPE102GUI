@@ -68,7 +68,7 @@ extends AnimatedEntity
 			Actionable oldEntity = (Actionable) world.get_tile_occupant(newPt);
 			if (oldEntity instanceof Ore)
 			{
-				Schedules.removeEntity(world, oldEntity);
+				oldEntity.removeEntity(world);
 			}
 			world.move_entity(this, newPt);
 			return false;
@@ -89,7 +89,7 @@ extends AnimatedEntity
 			if(found)
 			{
 				Quake quake= world.createQuake(vein.getPosition(), current_ticks);
-				world.remove_entity(vein);
+				vein.removeEntity(world);
 				world.add_entity(quake);
 				nextTime = current_ticks + this.getRate()*2;
 			}
