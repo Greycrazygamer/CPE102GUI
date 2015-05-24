@@ -34,15 +34,37 @@ public class Point
 		return ((this.getX() == pt.getX() && Math.abs(this.getY() - pt.getY()) == 1) || 
 				(this.getY() == pt.getY() && Math.abs(this.getX() - pt.getX()) == 1 ));
 	}
-	
-	public boolean equals(Point pt)
+
+	@Override
+	public int hashCode()
 	{
-		if (this.getX() == pt.getX() && this.getY() == pt.getY())
-		{
-			return true;
-		}
-		else{
-			return false;
-		}
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + x;
+		result = prime * result + y;
+		return result;
 	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Point other = (Point) obj;
+		if (x != other.x)
+			return false;
+		if (y != other.y)
+			return false;
+		return true;
+	}
+	
+	public String printXY()
+	{
+		return "("+this.getX()+","+this.getY()+") ";
+	}
+
 }

@@ -39,7 +39,7 @@ extends AnimatedEntity
         this.scheduleAction(world, this.createQuakeAction(world), ticks + Schedules.QUAKE_DURATION);
 	}
 	
-	public HashSet<Node> neighborNodes(Node current, WorldModel world)
+	public HashSet<Node> neighborNodes(Node current, Node goal, WorldModel world)
 	{
 		// TODO Auto-generated method stub
 		return null;

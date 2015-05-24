@@ -2,6 +2,7 @@ package worldobject.entities.action.animated;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -28,7 +29,7 @@ extends worldobject.entities.action.Actionable
 		this.animationRate= animationRate;
 	}
 	
-	public abstract HashSet<Node> neighborNodes(Node current, WorldModel world);
+	public abstract HashSet<Node> neighborNodes(Node current, Node goal, WorldModel world);
 	public long getAnimationRate()
 	{
 		return this.animationRate;
@@ -62,18 +63,29 @@ extends worldobject.entities.action.Actionable
 		return Types.AnimatedEntity;
 	}
 	
-	public LinkedList<Node> aStar(Point start, Point goal, WorldModel world)
+	public LinkedList<Point> aStar(Point ptgoal, WorldModel world)
 	{
-		LinkedList<Point> closedset = new LinkedList<>();
+		LinkedHashSet<Node> closedset = new LinkedHashSet<>();
 		LinkedHashSet<Node> openset = new LinkedHashSet<>();
 		Node current= null;
+		Node goal = new Node(ptgoal, 0, 0);
 		HashMap<Node, Node> cameFrom = new HashMap<>();
 		//Start Node
-		openset.add(new Node(start, 0, start.distance_sq(goal)));
-		
+		openset.add(new Node(this.getPosition(), 0, getPosition().distance_sq(goal)));
 		while (openset.isEmpty() == false)
 		{
+//			PRINT DEBUGS
+//			System.out.println("Open");
+//			this.NodePrint(openset, "XY");
+//			this.NodePrint(openset, "F");
+			
 			current = lowestF(openset);
+//			PRINT DEBUGS
+//			System.out.println("Current: "+ current.printXY()+ "F: " +current.getfValue());
+			if(current == null)
+			{
+				System.out.println(this.getName());
+			}
 			if (current.equals(goal))
 			{
 				return reconstructPath(cameFrom, current);
@@ -81,7 +93,14 @@ extends worldobject.entities.action.Actionable
 			
 			openset.remove(current);
 			closedset.add(current);
-			for (Node neighbor: this.neighborNodes(current, world))
+			HashSet<Node> neighbors = this.neighborNodes(current, goal, world);
+			
+//			PRINT DEBUGS
+//			System.out.println("Neigh");
+//			this.NodePrint(neighbors, "XY");
+//			this.NodePrint(neighbors, "F");
+//			System.out.println();
+			for (Node neighbor: neighbors)
 			{
 				if (closedset.contains(neighbor))
 				{
@@ -89,7 +108,7 @@ extends worldobject.entities.action.Actionable
 				}
 				
 				double tentativeG = current.getgValue() + 1;
-				if (closedset.contains(neighbor) ==false || tentativeG < neighbor.getgValue())
+				if (closedset.contains(neighbor) ==  false || tentativeG < neighbor.getgValue())
 				{
 					cameFrom.put(neighbor, current);
 					neighbor.setgValue(tentativeG);
@@ -102,18 +121,19 @@ extends worldobject.entities.action.Actionable
 				}
 			}
 		}
-		return null;
+		return reconstructPath(cameFrom, current);
 	}
 	
-	private LinkedList<Node> reconstructPath(HashMap<Node, Node>cameFrom, Node current)
+	private LinkedList<Point> reconstructPath(HashMap<Node, Node>cameFrom, Node current)
 	{
-		LinkedList<Node> totalpath = new LinkedList<Node>();
+		LinkedList<Point> totalpath = new LinkedList<Point>();
 		totalpath.add(current);
 		while (cameFrom.containsKey(current))
 		{
 			current = cameFrom.get(current);
-			totalpath.add(current);
+			totalpath.add(current.convertToPoint());
 		}
+		Collections.reverse(totalpath);
 		return totalpath;
 	}
 	public Node lowestF(LinkedHashSet<Node> openset)
@@ -130,5 +150,112 @@ extends worldobject.entities.action.Actionable
 				
 		}
 		return minNode;
+	}
+	
+	public void APrint(LinkedList<Point> temp)
+	{
+		System.out.print("(X,Y):");
+			for (Point n: temp)
+			{
+				System.out.print(n.printXY());
+			}
+			System.out.println("<end>");
+		
+	}
+	
+	public void NodePrint(LinkedHashSet<Node> set, String value)
+	{
+		if (value== "X")
+		{
+			System.out.print("X: ");
+			for (Node n: set)
+			{
+				System.out.print(n.getX() + " ");
+			}
+			System.out.println("<end>");
+		}
+		if (value== "Y")
+		{
+			System.out.print("Y: ");
+			for (Node n: set)
+			{
+				System.out.print(n.getY() + " ");
+			}
+			System.out.println("<end>");
+		}
+		if (value== "XY")
+		{
+			System.out.print("(X,Y):");
+			for (Node n: set)
+			{
+				System.out.print(n.printXY());
+			}
+			System.out.println("<end>");
+		}
+		if (value== "G")
+		{
+			System.out.print("G: ");
+			for (Node n: set)
+			{
+				System.out.print(n.getgValue() + " ");
+			}
+			System.out.println("<end>");
+		}
+		if (value== "F")
+		{
+			for (Node n: set)
+			{
+				System.out.print("F: "+n.getfValue() + " ");
+			}
+			System.out.println("<end>");
+		}
+	}
+	
+	public void NodePrint(HashSet<Node> set, String value)
+	{
+		if (value== "X")
+		{
+			System.out.print("X: ");
+			for (Node n: set)
+			{
+				System.out.print(n.getX() + " ");
+			}
+			System.out.println("<end>");
+		}
+		if (value== "Y")
+		{
+			System.out.print("Y: ");
+			for (Node n: set)
+			{
+				System.out.print(n.getY() + " ");
+			}
+			System.out.println("<end>");
+		}
+		if (value== "XY")
+		{
+			System.out.print("(X,Y):");
+			for (Node n: set)
+			{
+				System.out.print(n.printXY());
+			}
+			System.out.println("<end>");
+		}
+		if (value== "G")
+		{
+			System.out.print("G: ");
+			for (Node n: set)
+			{
+				System.out.print(n.getgValue() + " ");
+			}
+			System.out.println("<end>");
+		}
+		if (value== "F")
+		{
+			for (Node n: set)
+			{
+				System.out.print("F: "+n.getfValue() + " ");
+			}
+			System.out.println("<end>");
+		}
 	}
 }

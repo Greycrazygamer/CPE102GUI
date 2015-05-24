@@ -16,18 +16,18 @@ public class DataTests
 //	Entity birdy= new AnimatedEntity("birdy", new Point(3,3), 5, null);
 //	Grid gridy= new Grid(10, 10, null);
 //	
-//	@Test
-//	public void testPTgetX()
-//	{
-//		Point pt= new Point(2,5);
-//		assertEquals(2, pt.getX());
-//	}
-//	@Test
-//	public void testPTgetY()
-//	{
-//		Point pt= new Point(2,5);
-//		assertEquals(5, pt.getY());
-//	}
+	@Test
+	public void testPTgetX()
+	{
+		Point pt= new Point(2,5);
+		assertEquals(2, pt.getX());
+	}
+	@Test
+	public void testPTgetY()
+	{
+		Node pt= new Node(2,5,0,0);
+		assertTrue(pt.equals(new Node(2,5,0,0)));
+	}
 //	@Test
 //	public void testPTdistance_sq()
 //	{

@@ -44,4 +44,6 @@ extends Point
 	{
 		return new Point(this.getX(), this.getY());
 	}
+	
+	
 }

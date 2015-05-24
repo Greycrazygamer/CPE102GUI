@@ -3,16 +3,19 @@ package worldmodel;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import worldobject.entities.Entity;
 import worldobject.entities.action.Actionable;
 import worldobject.entities.action.animated.AnimatedEntity;
 import worldobject.entities.action.animated.miner.Miner;
+import worldobject.entities.action.animated.miner.MinerFull;
 
 import java.util.Comparator;
 
 import org.junit.Test;
 
+import projdata.Node;
 import projdata.Point;
 import projdata.Types;
 
@@ -21,21 +24,40 @@ public class WorldModelTest
 {
 
 	
-//	private WorldModel wor= new WorldModel(10, 10, null);
+	private WorldModel wor= new WorldModel(10, 10, null);
 //	private Entity rabbit= new Actionable("rabbit", new Point(2,2), null);
 //	private Entity birdy= new AnimatedEntity("birdy", new Point(4,5), 6, null);
-//	//private Entity goffer= new Miner("goffer", 0, new Point(7,3), 0, null, 0);
-//	private ArrayList<Entity> listtest= new ArrayList<>();
+	private MinerFull gofferA= new MinerFull("gofferA", 0, new Point(5,3), 0, null, 0);
+	private MinerFull gofferB= new MinerFull("gofferB", 0, new Point(7,1), 0, null, 0);
+	private MinerFull obstacleL= new MinerFull("Obstacle", 0, new Point(4,3), 0, null, 0);
+	private MinerFull obstacleU= new MinerFull("Obstacle", 0, new Point(5,4), 0, null, 0);
+	private MinerFull obstacleR= new MinerFull("Obstacle", 0, new Point(6,3), 0, null, 0);
+	private MinerFull obstacleD= new MinerFull("Obstacle", 0, new Point(5,2), 0, null, 0);
+	private ArrayList<Entity> listtest= new ArrayList<>();
 //	
-//	@Test
-//	public void testWithin_bounds()
-//	{
-//		Point truther= new Point(3,4);
-//		assertTrue(wor.within_bounds(truther));
-//		
-//		Point falser= new Point(11, 132);
-//		assertFalse(wor.within_bounds(falser));
-//	}
+	@Test
+	public void testWithin_bounds()
+	{
+		wor.add_entity(obstacleU);
+		LinkedList<Point> tempA= gofferA.aStar(new Point(2,9), wor);
+		LinkedList<Point> tempB= gofferB.aStar(new Point(2,3), wor);
+		gofferA.APrint(tempA);
+		gofferB.APrint(tempB);
+		
+		while(tempA.isEmpty() == false || tempB.isEmpty() == false)
+		{
+			wor.move_entity(gofferA, tempA.get(1));
+			wor.move_entity(gofferB, tempB.get(1));
+			System.out.println();
+		
+			tempA= gofferA.aStar(new Point(2,9), wor);
+			tempB= gofferB.aStar(new Point(2,3), wor);
+			gofferA.APrint(tempA);
+			gofferB.APrint(tempB);
+		}
+
+		
+	}
 //
 //	@Test
 //	public void testIs_occupied()

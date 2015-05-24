@@ -37,6 +37,7 @@ extends Miner
 		}
 		else
 		{
+			this.aStar(ore.getPosition(), world);
 			Point new_pt = this.nextPositon(world, ore.getPosition());
 			world.move_entity(this, new_pt);
 			return false;

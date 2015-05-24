@@ -114,21 +114,27 @@ extends worldobject.entities.action.animated.AnimatedEntity
 		Schedules.scheduleMinerAnimation(world, this);
 	}
 	
-	public HashSet<Node> neighborNodes(Node current, WorldModel world)
+	public HashSet<Node> neighborNodes(Node current, Node goal, WorldModel world)
 	{
 		HashSet<Node> temp = new HashSet<>();
-		Node UP = new Node(this.getPosition().getX(), this.getPosition().getY()-1, current.getgValue() +1, 0);
-		Node DOWN= new Node(this.getPosition().getX(), this.getPosition().getY()+1, current.getgValue()+1, 0);
-		Node RIGHT= new Node(this.getPosition().getX()+1, this.getPosition().getY(), current.getgValue()+1, 0);
-		Node LEFT= new Node(this.getPosition().getX()-1, this.getPosition().getY(), current.getgValue()+1, 0);
+		double newG= current.getgValue() +1;
+		Node UP = new Node(current.getX(), current.getY()-1, newG, 0);
+		UP.setfValue(UP.getgValue()+ UP.distance_sq(goal));
+		Node DOWN= new Node(current.getX(), current.getY()+1, current.getgValue()+1, 0);
+		DOWN.setfValue(DOWN.getgValue()+ DOWN.distance_sq(goal));
+		Node RIGHT= new Node(current.getX()+1, current.getY(), current.getgValue()+1, 0);
+		RIGHT.setfValue(RIGHT.getgValue()+ RIGHT.distance_sq(goal));
+		Node LEFT= new Node(current.getX()-1, current.getY(), current.getgValue()+1, 0);
+		LEFT.setfValue(LEFT.getgValue()+ LEFT.distance_sq(goal));
 		if (world.within_bounds(UP) && world.is_empty(UP))
+//				System.out.println("up");
 				temp.add(UP);
 		if (world.within_bounds(DOWN) && world.is_empty(DOWN))
-			temp.add(UP);
+			temp.add(DOWN);
 		if (world.within_bounds(RIGHT) && world.is_empty(RIGHT))
-			temp.add(UP);
+			temp.add(RIGHT);
 		if (world.within_bounds(LEFT) && world.is_empty(LEFT))
-			temp.add(UP);
+			temp.add(LEFT);
 		return temp;
 	}
 	public abstract boolean startAction(WorldModel world);
