@@ -2,9 +2,11 @@ package worldobject.entities.action.animated.miner;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import processing.core.PImage;
+import projdata.Node;
 import projdata.Point;
 import projdata.Types;
 import worldloaders.Action;
@@ -112,6 +114,23 @@ extends worldobject.entities.action.animated.AnimatedEntity
 		Schedules.scheduleMinerAnimation(world, this);
 	}
 	
+	public HashSet<Node> neighborNodes(Node current, WorldModel world)
+	{
+		HashSet<Node> temp = new HashSet<>();
+		Node UP = new Node(this.getPosition().getX(), this.getPosition().getY()-1, current.getgValue() +1, 0);
+		Node DOWN= new Node(this.getPosition().getX(), this.getPosition().getY()+1, current.getgValue()+1, 0);
+		Node RIGHT= new Node(this.getPosition().getX()+1, this.getPosition().getY(), current.getgValue()+1, 0);
+		Node LEFT= new Node(this.getPosition().getX()-1, this.getPosition().getY(), current.getgValue()+1, 0);
+		if (world.within_bounds(UP) && world.is_empty(UP))
+				temp.add(UP);
+		if (world.within_bounds(DOWN) && world.is_empty(DOWN))
+			temp.add(UP);
+		if (world.within_bounds(RIGHT) && world.is_empty(RIGHT))
+			temp.add(UP);
+		if (world.within_bounds(LEFT) && world.is_empty(LEFT))
+			temp.add(UP);
+		return temp;
+	}
 	public abstract boolean startAction(WorldModel world);
 	public abstract Miner transformType(WorldModel world);
 	

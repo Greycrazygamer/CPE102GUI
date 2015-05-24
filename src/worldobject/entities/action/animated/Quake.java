@@ -1,9 +1,11 @@
 package worldobject.entities.action.animated;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import processing.core.PImage;
+import projdata.Node;
 import projdata.Point;
 import worldloaders.Action;
 import worldloaders.Schedules;
@@ -35,5 +37,11 @@ extends AnimatedEntity
 	{
 		this.scheduleAnimation(world, Schedules.QUAKE_STEPS);
         this.scheduleAction(world, this.createQuakeAction(world), ticks + Schedules.QUAKE_DURATION);
+	}
+	
+	public HashSet<Node> neighborNodes(Node current, WorldModel world)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -1,9 +1,11 @@
 package worldobject.entities.action.animated.miner;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import processing.core.PImage;
+import projdata.Node;
 import projdata.Point;
 import projdata.Types;
 import worldloaders.Action;
@@ -66,6 +68,8 @@ extends Miner
 	{
 		return this.tryTransformMinerFull(world);
 	}
+
 	
+
 
 }
