@@ -45,7 +45,12 @@ public class WorldView
 		
 		this.screen.image(img, loc.getX()*32 , loc.getY()*32);
 	}
+	
+	public void drawPathTile(PImage img, Point loc)
+	{
 		
+		this.screen.image(img, (loc.getX()-viewPort.getTopLeft().getX())*32 , (loc.getY()-viewPort.getTopLeft().getY())*32);
+	}
 	private void drawBackground()
 	{
 		
@@ -135,11 +140,25 @@ public class WorldView
 	}
 	
 	public ViewPort createShiftedViewport(int[] delta)
+	
 	{
 		int new_x= clamp(this.viewPort.getTopLeft().getX() + delta[0], 0, this.numCols - this.viewPort.getWidth());
 		int new_y= clamp(this.viewPort.getTopLeft().getY() + delta[1], 0, this.numRows - this.viewPort.getHeight());
 		return new ViewPort(new_x, new_y, this.viewPort.getWidth(), this.viewPort.getHeight());
 	}
+	
+	public int realMousePosX()
+	{
+		int trueX= screen.mouseX/32 + this.viewPort.getTopLeft().getX();
+		return trueX;
+	}
+	public int realMousePosY()
+	{
+		int trueY= screen.mouseY/32 + this.viewPort.getTopLeft().getY();
+		return trueY;
+	}
+	
+	
 	public int clamp(int v, int low, int high)
 	{
 		return Math.min(high, Math.max(v,low));

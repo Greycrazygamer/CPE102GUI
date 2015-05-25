@@ -66,7 +66,8 @@ extends AnimatedEntity
 		}
 		else
 		{
-			Point newPt= this.blobNextPosition(world, vein.getPosition());
+			Point newPt= this.aStar(vein.getPosition(), world).getFirst();
+//			Point newPt= this.blobNextPosition(world, vein.getPosition());
 			Actionable oldEntity = (Actionable) world.get_tile_occupant(newPt);
 			if (oldEntity instanceof Ore)
 			{
@@ -113,22 +114,27 @@ extends AnimatedEntity
 	{
 		HashSet<Node> temp = new HashSet<>();
 		double newG= current.getgValue() +1;
-		Node UP = new Node(this.getPosition().getX(), this.getPosition().getY()-1, newG, 0);
+		Node UP = new Node(current.getX(), current.getY()-1, newG, 0);
 		UP.setfValue(UP.getgValue()+ UP.distance_sq(goal));
-		Node DOWN= new Node(this.getPosition().getX(), this.getPosition().getY()+1, current.getgValue()+1, 0);
+		Node DOWN= new Node(current.getX(), current.getY()+1, current.getgValue()+1, 0);
 		DOWN.setfValue(DOWN.getgValue()+ DOWN.distance_sq(goal));
-		Node RIGHT= new Node(this.getPosition().getX()+1, this.getPosition().getY(), current.getgValue()+1, 0);
+		Node RIGHT= new Node(current.getX()+1, current.getY(), current.getgValue()+1, 0);
 		RIGHT.setfValue(RIGHT.getgValue()+ RIGHT.distance_sq(goal));
-		Node LEFT= new Node(this.getPosition().getX()-1, this.getPosition().getY(), current.getgValue()+1, 0);
+		Node LEFT= new Node(current.getX()-1, current.getY(), current.getgValue()+1, 0);
 		LEFT.setfValue(LEFT.getgValue()+ LEFT.distance_sq(goal));
-		if (world.within_bounds(UP) && world.is_empty(UP))
-//				System.out.println("up");
+		if (world.within_bounds(UP) && world.is_empty(UP)|| UP.equals(goal))
+//			if(world.get_tile_occupant(UP) instanceof Ore)
+//				world.remove_entity_at(UP);
 				temp.add(UP);
-		if (world.within_bounds(DOWN) && world.is_empty(DOWN))
-			temp.add(DOWN);
+		if (world.within_bounds(DOWN) && world.is_empty(DOWN)|| DOWN.equals(goal))
+//			if(world.get_tile_occupant(DOWN) instanceof Ore)
+//				world.remove_entity_at(DOWN);
+				temp.add(DOWN);
 		if (world.within_bounds(RIGHT) && world.is_empty(RIGHT))
+//			if(world.get_tile_occupant(RIGHT) instanceof Ore)
+//				world.remove_entity_at(RIGHT);
 			temp.add(RIGHT);
-		if (world.within_bounds(LEFT) && world.is_empty(LEFT))
+		if (world.within_bounds(LEFT) && world.is_empty(LEFT)|| LEFT.equals(goal))
 			temp.add(LEFT);
 		return temp;
 	}

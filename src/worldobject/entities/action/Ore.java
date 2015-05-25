@@ -34,7 +34,7 @@ extends Actionable
 		{
 			
 			this.removePendingAction(func[0]);
-			System.out.println("BlobCreated");
+//			System.out.println("BlobCreated");
 			Blob blob = world.createBlob(getName() + " -- blob", 
 					this.getPosition(), 
 					this.getRate() / Schedules.BLOB_RATE_SCALE, 

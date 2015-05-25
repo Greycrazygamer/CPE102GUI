@@ -7,20 +7,25 @@ import java.util.List;
 import java.util.Scanner;
 import java.lang.System;
 
+import org.hamcrest.core.IsInstanceOf;
+
 import processing.core.PApplet;
 import processing.core.PImage;
+import projdata.Node;
 import projdata.Point;
 import worldloaders.Controller;
 import worldloaders.Load;
 import worldloaders.WorldView;
 import worldmodel.WorldModel;
 import worldobject.Background;
+import worldobject.entities.Entity;
+import worldobject.entities.action.animated.AnimatedEntity;
 
 
 public class CPE102ProjectWGUI extends PApplet 
 {
 	
-	public String WORLD_FILE = "src/projdata/gaia.sav";
+	public String WORLD_FILE = "src/projdata/gaia2.sav";
 	public String IMAGE_FILE = "src/projdata/imagelist";
 	public int SCREEN_WIDTH = 640;
 	public int SCREEN_HEIGHT = 480;
@@ -36,6 +41,8 @@ public class CPE102ProjectWGUI extends PApplet
 	public Background DEFAULT_BACKGROUND;
 	public List<PImage> back;
 	public PImage temp;	
+	public PImage yellowpath;
+	public PImage redpath;
 	
 	
 
@@ -43,6 +50,9 @@ public class CPE102ProjectWGUI extends PApplet
 	public void setup()
 	{
 		temp= loadImage("none.bmp");
+		redpath= loadImage("reddot.png");
+		yellowpath= loadImage("bg00.png");
+		yellowpath= Load.setAlpha(yellowpath, color(100, 100,100), 10);
 		size(SCREEN_WIDTH,SCREEN_HEIGHT);	
 		back= new ArrayList<>();
 		back.add(temp);
@@ -64,29 +74,52 @@ public class CPE102ProjectWGUI extends PApplet
 	public void draw() 
 	{
 		long time = System.currentTimeMillis();
-		if (time >= refresh)
+		if (refresh< time)
 	    {
 			view.drawViewport();
+			
+//		/	System.out.print(view.realMousePosX()+" , "+view.realMousePosY());
+			
 	    	
 	      // perform actions previous to current time
-	    	refresh = System.currentTimeMillis() +200;
+	    	refresh = System.currentTimeMillis() +500;
 	    }
 		
 		
 		// A simplified action scheduling handler
 	    
-	    if (time >= next_time)
+	    if (next_time<time)
 	    {
+	    	this.DRAWPATH();
 	    	world.updateOnTime(time);
 	    	
 	      // perform actions previous to current time
-	    	next_time = System.currentTimeMillis() +200;
+	    	next_time = System.currentTimeMillis() +500;
 	    }
 	         
 
 		
 	}
 	
+	public void DRAWPATH()
+	{
+		Point pt = new Point(view.realMousePosX(), view.realMousePosY());
+		if(world.get_tile_occupant(pt) instanceof AnimatedEntity)
+		{
+			AnimatedEntity guy = (AnimatedEntity) world.get_tile_occupant(pt);
+			for (Point dtn: guy.getSearchPath())
+			{
+				view.drawPathTile(yellowpath, dtn);
+			}
+			for (Point dtp: guy.getDrawPath())
+			{
+//				System.out.print(dtp.printXY());
+				view.drawPathTile(redpath, dtp);
+			}
+			view.drawTile(guy.getImage(), guy.getPosition());
+			System.out.println();
+		}
+	}
 		
 	public void keyPressed()
 	{

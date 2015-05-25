@@ -12,6 +12,7 @@ import worldobject.entities.action.animated.miner.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,6 +28,8 @@ public class Load
 	
 	public static List<PImage> BLOB_IMG= new ArrayList<>();
 	public static List<PImage> QUAKE_IMG= new ArrayList<>();
+	
+	
 		
 			public static int PROPERTY_KEY = 0;
 
@@ -315,8 +318,7 @@ public class Load
 				}
 			}
 			
-			
-			
+					
 			public static void imageLoad(String imagelist, PApplet screen)
 			{
 				Scanner reader = null;
@@ -339,7 +341,7 @@ public class Load
 
 			   // Called with color for which alpha should be set and alpha value.
 			   //PImage img = setAlpha(loadImage("wyvern1.bmp"), color(255, 255, 255), 0));
-			private static PImage setAlpha(PImage img, int maskColor, int alpha)
+			public static PImage setAlpha(PImage img, int maskColor, int alpha)
 			{
 			      int alphaValue = alpha << 24;
 			      int nonAlpha = maskColor & COLOR_MASK;

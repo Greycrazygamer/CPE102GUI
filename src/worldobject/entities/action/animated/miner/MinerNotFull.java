@@ -32,21 +32,22 @@ extends Miner
 		if (this.getPosition().adjacent(ore.getPosition()))
 		{
 			this.setResourceCount(1 + this.getResourceCount());
-			Schedules.removeEntity(world, ore);
+			ore.removeEntity(world);
 			return true;
 		}
 		else
 		{
-			this.aStar(ore.getPosition(), world);
-			Point new_pt = this.nextPositon(world, ore.getPosition());
-			world.move_entity(this, new_pt);
+			Point newPt= this.aStar(ore.getPosition(), world).getFirst();
+//			this.APrint();
+//			Point newPt = this.nextPositon(world, ore.getPosition());
+			world.move_entity(this, newPt);
 			return false;
 		}
 	}
 	
 	public Miner tryTransformMinerNotFull(WorldModel world)
 	{
-		if (this.getResourceCount() < this.getResourceLimit())
+		if (this.getResourceCount() <= this.getResourceLimit()+1)
 		{
 			return this;
 		}

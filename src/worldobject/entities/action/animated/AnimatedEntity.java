@@ -13,7 +13,6 @@ import java.util.Set;
 import processing.core.PImage;
 import projdata.Grid;
 import projdata.Node;
-import projdata.PathGrid;
 import projdata.Point;
 import projdata.Types;
 import worldloaders.Action;
@@ -23,6 +22,9 @@ public abstract class AnimatedEntity
 extends worldobject.entities.action.Actionable
 {
 	private long animationRate;
+	private LinkedList<Point> drawPath= new LinkedList<>();
+	private HashSet<Point> searchPath= new HashSet<>();
+	
 	public AnimatedEntity(String name, Point position, long rate, long animationRate, List<PImage> imgs)
 	{
 		super(name, position, rate, imgs);
@@ -30,6 +32,14 @@ extends worldobject.entities.action.Actionable
 	}
 	
 	public abstract HashSet<Node> neighborNodes(Node current, Node goal, WorldModel world);
+	public LinkedList<Point> getDrawPath()
+	{
+		return this.drawPath;
+	}
+	public HashSet<Point> getSearchPath()
+	{
+		return this.searchPath;
+	}
 	public long getAnimationRate()
 	{
 		return this.animationRate;
@@ -65,13 +75,17 @@ extends worldobject.entities.action.Actionable
 	
 	public LinkedList<Point> aStar(Point ptgoal, WorldModel world)
 	{
+//		System.out.println("Goal: " + ptgoal.printXY());
 		LinkedHashSet<Node> closedset = new LinkedHashSet<>();
 		LinkedHashSet<Node> openset = new LinkedHashSet<>();
-		Node current= null;
+		LinkedList<Point> failure= new LinkedList<Point>();
 		Node goal = new Node(ptgoal, 0, 0);
+		Node current= new Node(this.getPosition(), 0, getPosition().distance_sq(goal));
 		HashMap<Node, Node> cameFrom = new HashMap<>();
 		//Start Node
-		openset.add(new Node(this.getPosition(), 0, getPosition().distance_sq(goal)));
+		openset.add(current);
+		searchPath.add(current);
+		
 		while (openset.isEmpty() == false)
 		{
 //			PRINT DEBUGS
@@ -79,9 +93,11 @@ extends worldobject.entities.action.Actionable
 //			this.NodePrint(openset, "XY");
 //			this.NodePrint(openset, "F");
 			
-			current = lowestF(openset);
+			current = lowestF(openset, 150000);
 //			PRINT DEBUGS
-//			System.out.println("Current: "+ current.printXY()+ "F: " +current.getfValue());
+//			System.out.print("Position: " +this.getPosition().printXY()+" ");
+//			System.out.print("Current: "+ current.printXY()+ "F: " +current.getfValue());
+//			System.out.println("Goal" + goal.printXY());
 			if(current == null)
 			{
 				System.out.println(this.getName());
@@ -117,11 +133,14 @@ extends worldobject.entities.action.Actionable
 					if (openset.contains(neighbor) != true)
 					{
 						openset.add(neighbor);
+						searchPath.add(neighbor);
 					}
 				}
 			}
 		}
-		return reconstructPath(cameFrom, current);
+		failure.add(getPosition());
+		this.drawPath= failure;
+		return failure;
 	}
 	
 	private LinkedList<Point> reconstructPath(HashMap<Node, Node>cameFrom, Node current)
@@ -133,12 +152,15 @@ extends worldobject.entities.action.Actionable
 			current = cameFrom.get(current);
 			totalpath.add(current.convertToPoint());
 		}
-		Collections.reverse(totalpath);
-		return totalpath;
+			totalpath.removeLast();
+			this.drawPath= totalpath;
+			Collections.reverse(drawPath);
+			return totalpath;
+		
 	}
-	public Node lowestF(LinkedHashSet<Node> openset)
+	public Node lowestF(LinkedHashSet<Node> openset, double inital)
 	{
-		double minval = 1000; 
+		double minval = inital; 
 		Node minNode= null;
 		for (Node n: openset)
 		{
@@ -152,10 +174,10 @@ extends worldobject.entities.action.Actionable
 		return minNode;
 	}
 	
-	public void APrint(LinkedList<Point> temp)
+	public void APrint()
 	{
 		System.out.print("(X,Y):");
-			for (Point n: temp)
+			for (Point n: this.drawPath)
 			{
 				System.out.print(n.printXY());
 			}

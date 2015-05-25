@@ -42,7 +42,9 @@ extends Miner
 		}
 		else
 		{
-			Point newPt= this.nextPositon(world, smith_pt);
+			Point newPt= this.aStar(smith_pt, world).getFirst();
+//			this.APrint();
+//			Point newPt= this.nextPositon(world, smith_pt);
 			world.move_entity(this, newPt);
 			return false;
 		}

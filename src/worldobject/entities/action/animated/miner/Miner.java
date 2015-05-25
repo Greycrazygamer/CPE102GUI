@@ -126,14 +126,14 @@ extends worldobject.entities.action.animated.AnimatedEntity
 		RIGHT.setfValue(RIGHT.getgValue()+ RIGHT.distance_sq(goal));
 		Node LEFT= new Node(current.getX()-1, current.getY(), current.getgValue()+1, 0);
 		LEFT.setfValue(LEFT.getgValue()+ LEFT.distance_sq(goal));
-		if (world.within_bounds(UP) && world.is_empty(UP))
+		if (world.within_bounds(UP) && world.is_empty(UP)|| UP.equals(goal))
 //				System.out.println("up");
 				temp.add(UP);
-		if (world.within_bounds(DOWN) && world.is_empty(DOWN))
+		if (world.within_bounds(DOWN) && world.is_empty(DOWN)|| DOWN.equals(goal))
 			temp.add(DOWN);
-		if (world.within_bounds(RIGHT) && world.is_empty(RIGHT))
+		if (world.within_bounds(RIGHT) && world.is_empty(RIGHT)|| RIGHT.equals(goal))
 			temp.add(RIGHT);
-		if (world.within_bounds(LEFT) && world.is_empty(LEFT))
+		if (world.within_bounds(LEFT) && world.is_empty(LEFT)|| LEFT.equals(goal))
 			temp.add(LEFT);
 		return temp;
 	}
