@@ -293,7 +293,6 @@ public class Load
 					Entity blacksmith = new Blacksmith(properties[SMITH_NAME],
 							new Point(Integer.parseInt(properties[SMITH_COL]), Integer.parseInt(properties[SMITH_ROW])),
 							SMITH_IMG);
-					
 					return blacksmith;
 				}
 				else

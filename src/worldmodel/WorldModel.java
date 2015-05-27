@@ -93,11 +93,14 @@ public class WorldModel {
 		{
 				return null;
 		}
+		
 		double smallest = oftype.get(0).getPosition().distance_sq(pt);
 		for (Entity i : oftype)
 		{
-			if (i.getPosition().distance_sq(pt) < smallest)
+			double newsmallest= i.getPosition().distance_sq(pt);
+			if (newsmallest < smallest)
 			{
+				smallest= newsmallest;
 				mindex = oftype.indexOf(i);
 			}
 			

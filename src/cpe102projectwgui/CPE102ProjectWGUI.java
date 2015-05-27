@@ -78,8 +78,6 @@ public class CPE102ProjectWGUI extends PApplet
 	    {
 			view.drawViewport();
 			
-//		/	System.out.print(view.realMousePosX()+" , "+view.realMousePosY());
-			
 	    	
 	      // perform actions previous to current time
 	    	refresh = System.currentTimeMillis() +100;
@@ -113,11 +111,10 @@ public class CPE102ProjectWGUI extends PApplet
 			}
 			for (Point dtp: guy.getDrawPath())
 			{
-//				System.out.print(dtp.printXY());
 				view.drawPathTile(redpath, dtp);
 			}
 			view.drawTile(guy.getImage(), guy.getPosition());
-			System.out.println();
+			
 		}
 	}
 		
