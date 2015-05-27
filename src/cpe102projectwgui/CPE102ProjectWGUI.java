@@ -25,7 +25,7 @@ import worldobject.entities.action.animated.AnimatedEntity;
 public class CPE102ProjectWGUI extends PApplet 
 {
 	
-	public String WORLD_FILE = "src/projdata/gaia2.sav";
+	public String WORLD_FILE = "src/projdata/gaia.sav";
 	public String IMAGE_FILE = "src/projdata/imagelist";
 	public int SCREEN_WIDTH = 640;
 	public int SCREEN_HEIGHT = 480;
@@ -82,7 +82,7 @@ public class CPE102ProjectWGUI extends PApplet
 			
 	    	
 	      // perform actions previous to current time
-	    	refresh = System.currentTimeMillis() +500;
+	    	refresh = System.currentTimeMillis() +100;
 	    }
 		
 		
@@ -94,7 +94,7 @@ public class CPE102ProjectWGUI extends PApplet
 	    	world.updateOnTime(time);
 	    	
 	      // perform actions previous to current time
-	    	next_time = System.currentTimeMillis() +500;
+	    	next_time = System.currentTimeMillis() +100;
 	    }
 	         
 

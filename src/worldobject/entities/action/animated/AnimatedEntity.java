@@ -36,6 +36,12 @@ extends worldobject.entities.action.Actionable
 	{
 		return this.drawPath;
 	}
+	
+	public void setDrawPath(LinkedList<Point> some)
+	{
+		this.drawPath=some;
+	}
+	
 	public HashSet<Point> getSearchPath()
 	{
 		return this.searchPath;
@@ -138,6 +144,7 @@ extends worldobject.entities.action.Actionable
 				}
 			}
 		}
+		failure.clear();
 		failure.add(getPosition());
 		this.drawPath= failure;
 		return failure;

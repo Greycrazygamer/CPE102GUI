@@ -1,6 +1,7 @@
 package worldobject.entities.action.animated.miner;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import processing.core.PImage;
@@ -27,6 +28,9 @@ extends Miner
 	{
 		if (ore ==null)
 		{
+			LinkedList<Point> fail= new LinkedList<>();
+			fail.add(this.getPosition());
+			this.setDrawPath(fail);
 			return false;
 		}
 		if (this.getPosition().adjacent(ore.getPosition()))
@@ -38,8 +42,6 @@ extends Miner
 		else
 		{
 			Point newPt= this.aStar(ore.getPosition(), world).getFirst();
-//			this.APrint();
-//			Point newPt = this.nextPositon(world, ore.getPosition());
 			world.move_entity(this, newPt);
 			return false;
 		}

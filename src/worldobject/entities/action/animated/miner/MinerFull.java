@@ -2,6 +2,7 @@ package worldobject.entities.action.animated.miner;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 
 import processing.core.PImage;
@@ -31,6 +32,9 @@ extends Miner
 		Point entity_pt = this.getPosition();
 		if (smith == null)
 		{
+			LinkedList<Point> fail= new LinkedList<>();
+			fail.add(this.getPosition());
+			this.setDrawPath(fail);
 			return true;
 		}
 		Point smith_pt = smith.getPosition();

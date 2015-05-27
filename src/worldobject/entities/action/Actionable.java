@@ -56,7 +56,10 @@ extends worldobject.entities.Entity
 	 
 	 public void removeEntity(WorldModel world) 
 	 {
-	        //remove actions first
+		 for( Action a: this.getPendingActions())
+			{
+				world.unscheduleAction(a);
+			}
 	        this.clearPendingActions();
 	        world.remove_entity(this);
 	 }
