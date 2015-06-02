@@ -18,8 +18,10 @@ import worldloaders.Load;
 import worldloaders.WorldView;
 import worldmodel.WorldModel;
 import worldobject.Background;
+import worldobject.Storm;
 import worldobject.entities.Entity;
 import worldobject.entities.action.animated.AnimatedEntity;
+import worldobject.entities.action.animated.Lightning;
 
 
 public class CPE102ProjectWGUI extends PApplet 
@@ -43,6 +45,7 @@ public class CPE102ProjectWGUI extends PApplet
 	public PImage temp;	
 	public PImage yellowpath;
 	public PImage redpath;
+
 	
 	
 
@@ -53,6 +56,7 @@ public class CPE102ProjectWGUI extends PApplet
 		redpath= loadImage("reddot.png");
 		yellowpath= loadImage("bg00.png");
 		yellowpath= Load.setAlpha(yellowpath, color(100, 100,100), 10);
+	
 		size(SCREEN_WIDTH,SCREEN_HEIGHT);	
 		back= new ArrayList<>();
 		back.add(temp);
@@ -67,7 +71,7 @@ public class CPE102ProjectWGUI extends PApplet
 		
 		
 		Load.LoadWorld(world, WORLD_FILE, RUN_AFTER_LOAD, System.currentTimeMillis());
-		
+		world.add_entity(world.createLightning(new Point(5,5), System.currentTimeMillis()));
 		view.drawViewport();
 	}
 
@@ -78,11 +82,10 @@ public class CPE102ProjectWGUI extends PApplet
 	    {
 			view.drawViewport();
 			
-	    	
+			
 	      // perform actions previous to current time
 	    	refresh = System.currentTimeMillis() +100;
 	    }
-		
 		
 		// A simplified action scheduling handler
 	    
@@ -90,7 +93,7 @@ public class CPE102ProjectWGUI extends PApplet
 	    {
 	    	this.DRAWPATH();
 	    	world.updateOnTime(time);
-	    	
+	    	this.worldEvent();
 	      // perform actions previous to current time
 	    	next_time = System.currentTimeMillis() +100;
 	    }
@@ -117,7 +120,31 @@ public class CPE102ProjectWGUI extends PApplet
 			
 		}
 	}
-		
+	
+	public void worldEvent()
+	{
+		if (mousePressed)
+		{
+			Point pt = new Point(view.realMousePosX(), view.realMousePosY());
+			LoadStorm(world, pt);
+		}
+	}
+	
+	public void LoadStorm(WorldModel world, Point pt)
+	{
+		for (int i = pt.getY()-2; (i < pt.getY()+2); i++)
+		{
+			for(int j = pt.getX()-2; (j< pt.getX()+2); j++)
+			{
+				Point temp= new Point(j,i);
+				if (world.within_bounds(temp))
+				{
+					world.set_background(temp, new Storm("Storm" + pt.getX() + pt.getY(), Load.STORM_IMG));
+				}
+			}
+		}
+						
+	}
 	public void keyPressed()
 	{
 		int deltaX= 0;

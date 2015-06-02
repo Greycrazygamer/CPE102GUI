@@ -89,36 +89,8 @@ public class WorldView
 	}
 	
 	
-	public void updateViewTiles(List<Point> tiles)
-	{
+	
 		
-		for (Point tile: tiles)
-		{
-			if (viewPort.containsPoint(tile))
-			{
-				Point vPt= this.worldToViewpoint(tile);
-				PImage img = this.getTileImage(vPt);
-				this.drawTile(img, vPt);
-			}
-		}
-		
-	
-	}
-	
-	public PImage getTileImage(Point tilePt)
-	{
-		Point pt = this.viewportToWorld(tilePt);
-		PImage bgnd = this.world.getBackgroundImage(pt);
-		Entity occupant= this.world.get_tile_occupant(pt);
-		if (occupant != null)
-		{
-			return occupant.getImage();
-		}
-		else{
-			return bgnd;
-		}
-	}
-	
 	public void updateView(int[] delta)
 	{
 		this.viewPort= this.createShiftedViewport(delta);

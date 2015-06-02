@@ -2,6 +2,7 @@ package worldloaders;
 
 import worldmodel.WorldModel;
 import worldobject.Background;
+import worldobject.Storm;
 import worldobject.entities.Blacksmith;
 import worldobject.entities.Entity;
 import worldobject.entities.Obstacle;
@@ -42,7 +43,11 @@ public class Load
 			public static List<PImage> BGND_GRASS_IMG = new ArrayList<>();
 			public static List<PImage> BGND_ROCK_IMG = new ArrayList<>();
 			
-                   
+			public static int STORM_NAME = 1;
+			public static int STORM_COL = 2;
+			public static int STORM_ROW = 3;
+			public static List<PImage> STORM_IMG = new ArrayList<>();
+			
 			public static String MINER_KEY = "miner";
 			public static int MINER_NUM_PROPERTIES = 7;
 			public static int MINER_NAME = 1;
@@ -71,7 +76,7 @@ public class Load
 			public static String SMITH_KEY = "blacksmith";
 			public static int SMITH_NUM_PROPERTIES = 7;
 			public static int SMITH_NAME = 1;
-			public static int SMITH_COL = 2;
+			public static int SMITH_COL  = 2;
 			public static int SMITH_ROW = 3;
 			public static int SMITH_LIMIT = 4;
 			public static int SMITH_RATE = 5;
@@ -147,6 +152,9 @@ public class Load
 				}
 				reader.close();
 			}
+			
+			
+			
 			
 			public static void AddBackground(WorldModel world, String[] properties)
 			{
@@ -365,7 +373,6 @@ public class Load
 				PImage temp;
 				PImage temp2;
 				String name= line[1].trim();
-				
 				switch (type)
 				{
 				case 1:
@@ -406,13 +413,17 @@ public class Load
 					Load.BGND_ROCK_IMG.add(temp);
 					break;
 				case 9:
-					
 					temp = screen.loadImage(name);
 					Load.VEIN_IMG.add(temp);
 					break;
 				case 10:
 					temp = screen.loadImage(name);
 					Load.LIGHTNING_IMG.add(temp);
+					break;
+				case 11:
+					temp = screen.loadImage(name);
+					Load.STORM_IMG.add(temp);
+					break;
 				}
 			}	
 			
