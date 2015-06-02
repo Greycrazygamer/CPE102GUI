@@ -22,6 +22,10 @@ public class Schedules
 	public static int QUAKE_STEPS = 10;
 	public static int QUAKE_DURATION = 1100;
 	public static int QUAKE_ANIMATION_RATE = 100;
+	
+	public static int LIGHTNING_STEPS = 10;
+	public static int LIGHTNING_DURATION = 600;
+	public static int LIGHTNING_ANIMATION_RATE = 100;
            
 	public static int VEIN_SPAWN_DELAY = 400;
 	public static int VEIN_RATE_MIN = 8000;

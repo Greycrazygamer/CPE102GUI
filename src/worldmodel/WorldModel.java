@@ -10,6 +10,7 @@ import worldobject.entities.Obstacle;
 import worldobject.entities.action.Ore;
 import worldobject.entities.action.Vein;
 import worldobject.entities.action.animated.Blob;
+import worldobject.entities.action.animated.Lightning;
 import worldobject.entities.action.animated.Quake;
 
 import java.util.ArrayList;
@@ -249,5 +250,12 @@ public class WorldModel {
 		Quake quake = new Quake("quake", pt, Load.QUAKE_IMG, Schedules.QUAKE_ANIMATION_RATE);
 		quake.scheduleQuake(this, ticks);
 		return quake;
+	}
+	
+	public Lightning createLightning(Point pt, long ticks)
+	{
+		Lightning light = new Lightning("lightning", pt, Load.LIGHTNING_IMG, Schedules.LIGHTNING_ANIMATION_RATE);
+		light.scheduleLightning(this, ticks);
+		return light;
 	}
 }

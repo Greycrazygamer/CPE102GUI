@@ -28,6 +28,7 @@ public class Load
 	
 	public static List<PImage> BLOB_IMG= new ArrayList<>();
 	public static List<PImage> QUAKE_IMG= new ArrayList<>();
+	public static List<PImage> LIGHTNING_IMG= new ArrayList<>();
 	
 	
 		
@@ -86,6 +87,7 @@ public class Load
 			public static int VEIN_REACH = 5;
 			public static List<PImage> VEIN_IMG= new ArrayList<>();
 			        
+		
 			public static void LoadWorld(WorldModel world, String filename, long ticks)
 			{
 				boolean run = false;
@@ -408,6 +410,9 @@ public class Load
 					temp = screen.loadImage(name);
 					Load.VEIN_IMG.add(temp);
 					break;
+				case 10:
+					temp = screen.loadImage(name);
+					Load.LIGHTNING_IMG.add(temp);
 				}
 			}	
 			
