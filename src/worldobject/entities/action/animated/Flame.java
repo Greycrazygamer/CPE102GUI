@@ -9,6 +9,8 @@ import projdata.Point;
 import worldloaders.Action;
 import worldloaders.Schedules;
 import worldmodel.WorldModel;
+import worldobject.entities.action.Ore;
+import worldobject.entities.action.Vein;
 
 public class Flame
 extends AnimatedEntity
@@ -25,8 +27,12 @@ extends AnimatedEntity
 	public Action createFlameAction(WorldModel world) {
         Action[] func = {null};
         func[0] = (ticks) -> {
+        	Point temp= this.getPosition();
             this.removePendingAction(func[0]);
             this.removeEntity(world);
+            Vein vein= world.createVein("vein", temp, ticks);
+            world.add_entity(vein);
+            
         };
         return func[0];
     }

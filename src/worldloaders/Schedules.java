@@ -17,7 +17,7 @@ public class Schedules
 	public static int BLOB_ANIMATION_MAX = 3;
     
 	public static int WYVERN_RATE = 500;
-	public static int WYVERN_ANIMATION_RATE = 100;
+	public static int WYVERN_ANIMATION_RATE = 90;
 	
 	public static int ORE_CORRUPT_MIN = 20000;
 	public static int ORE_CORRUPT_MAX = 30000;

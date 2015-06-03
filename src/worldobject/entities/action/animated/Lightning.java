@@ -14,7 +14,7 @@ import worldobject.entities.action.animated.miner.Miner;
 public class Lightning
 extends AnimatedEntity
 {
-	
+	static int stormlimit=0;
 	public Lightning(String name, Point position, List<PImage> imgs, int animationRate)
 	{
 		super(name, position, 0, animationRate, imgs);
@@ -29,8 +29,11 @@ extends AnimatedEntity
             this.removeEntity(world);
             if (replacement !=null)
             {
-            	if (replacement instanceof Miner)
+            	if (replacement instanceof Miner && stormlimit <6)
+            	{
+            		stormlimit++;
             		world.createMinerStorm((Miner) replacement, ticks);
+            	}
             	else if(replacement instanceof Wyvern)
             		world.createWyvern((Wyvern) replacement, ticks);
             }
