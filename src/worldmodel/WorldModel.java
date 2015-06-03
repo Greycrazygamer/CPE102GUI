@@ -10,8 +10,10 @@ import worldobject.entities.Obstacle;
 import worldobject.entities.action.Ore;
 import worldobject.entities.action.Vein;
 import worldobject.entities.action.animated.Blob;
+import worldobject.entities.action.animated.Flame;
 import worldobject.entities.action.animated.Lightning;
 import worldobject.entities.action.animated.Quake;
+import worldobject.entities.action.animated.Wyvern;
 import worldobject.entities.action.animated.miner.Miner;
 import worldobject.entities.action.animated.miner.MinerStorm;
 
@@ -88,6 +90,37 @@ public class WorldModel {
 		for (Entity e : this.entities)
 		{	
 			if (type == e.getType())
+			{
+				oftype.add(e);
+			}
+		}
+		if (oftype.size() == 0)
+		{
+				return null;
+		}
+		
+		double smallest = oftype.get(0).getPosition().distance_sq(pt);
+		for (Entity i : oftype)
+		{
+			double newsmallest= i.getPosition().distance_sq(pt);
+			if (newsmallest < smallest)
+			{
+				smallest= newsmallest;
+				mindex = oftype.indexOf(i);
+			}
+			
+		}
+		return oftype.get(mindex);
+	}
+	
+	public Entity find_nearests(Point pt, Types type1, Types type2) 
+	{
+		
+		ArrayList<Entity> oftype = new ArrayList<Entity>();
+		int mindex =0;
+		for (Entity e : this.entities)
+		{	
+			if (type1 == e.getType() || type2 == e.getType())
 			{
 				oftype.add(e);
 			}
@@ -259,6 +292,20 @@ public class WorldModel {
 		Quake quake = new Quake("quake", pt, Load.QUAKE_IMG, Schedules.QUAKE_ANIMATION_RATE);
 		quake.scheduleQuake(this, ticks);
 		return quake;
+	}
+	
+	public Wyvern createWyvern(Point pt, long ticks)
+	{
+		Wyvern dragon = new Wyvern("dragon", pt, Schedules.WYVERN_RATE, Load.WYVERN_IMG, Schedules.WYVERN_ANIMATION_RATE);
+		dragon.scheduleWyvern(this, ticks);
+		return dragon;
+	}
+	
+	public Flame createFlame(Point pt, long ticks)
+	{
+		Flame fire = new Flame("flame", pt, Load.FLAME_IMG, Schedules.FLAME_ANIMATION_RATE);
+		fire.scheduleFlame(this, ticks);
+		return fire;
 	}
 	
 	public Lightning createLightning(Point pt, Miner replacement, long ticks)

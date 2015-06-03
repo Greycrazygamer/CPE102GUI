@@ -30,7 +30,9 @@ public class Load
 	public static List<PImage> BLOB_IMG= new ArrayList<>();
 	public static List<PImage> QUAKE_IMG= new ArrayList<>();
 	public static List<PImage> LIGHTNING_IMG= new ArrayList<>();
+	public static List<PImage> FLAME_IMG= new ArrayList<>();
 	public static List<PImage> STORM_MINER_IMG= new ArrayList<>();
+	public static List<PImage> WYVERN_IMG= new ArrayList<>();
 	
 	
 		
@@ -475,6 +477,16 @@ public class Load
 				case 12:
 					temp = screen.loadImage(name);
 					Load.STORM_MINER_IMG.add(temp);
+					break;
+				case 13:
+					temp = screen.loadImage(name);
+					Load.FLAME_IMG.add(temp);
+					break;
+				case 14:
+					temp = screen.loadImage(name);
+					temp2= Load.setAlpha(temp, screen.color(255, 255, 255), 0);
+					Load.WYVERN_IMG.add(temp2);
+					break;
 				}
 			}	
 			

@@ -15,7 +15,10 @@ public class Schedules
 	public static int BLOB_ANIMATION_RATE_SCALE = 50;
 	public static int BLOB_ANIMATION_MIN = 1;
 	public static int BLOB_ANIMATION_MAX = 3;
-          
+    
+	public static int WYVERN_RATE = 800;
+	public static int WYVERN_ANIMATION_RATE = 100;
+	
 	public static int ORE_CORRUPT_MIN = 20000;
 	public static int ORE_CORRUPT_MAX = 30000;
            
@@ -26,7 +29,11 @@ public class Schedules
 	public static int LIGHTNING_STEPS = 10;
 	public static int LIGHTNING_DURATION = 600;
 	public static int LIGHTNING_ANIMATION_RATE = 100;
-           
+        
+	public static int FLAME_STEPS = 7;
+	public static int FLAME_DURATION = 700;
+	public static int FLAME_ANIMATION_RATE = 100;
+	
 	public static int VEIN_SPAWN_DELAY = 400;
 	public static int VEIN_RATE_MIN = 8000;
 	public static int VEIN_RATE_MAX = 17000;

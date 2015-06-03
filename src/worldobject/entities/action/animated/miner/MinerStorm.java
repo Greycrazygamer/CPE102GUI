@@ -43,7 +43,7 @@ extends Miner
 		if (entity_pt.adjacent(blob_pt))
 		{
 			bob.removeEntity(world);
-			world.createLightning(blob_pt, null, System.currentTimeMillis());
+			world.add_entity(world.createLightning(blob_pt, null, System.currentTimeMillis()));
 			return 0;
 		}
 		else

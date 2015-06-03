@@ -91,7 +91,7 @@ extends Miner
 	{
 		Miner new_entity = new MinerStorm(
 				this.getName(), this.getResourceLimit(),
-				this.getPosition(), this.getRate()/2,
+				this.getPosition(), this.getRate()*2/3,
 				Load.STORM_MINER_IMG, this.getAnimationRate());
 		return new_entity;
 	}
