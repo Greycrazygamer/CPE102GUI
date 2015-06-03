@@ -12,6 +12,8 @@ import worldobject.entities.action.Vein;
 import worldobject.entities.action.animated.Blob;
 import worldobject.entities.action.animated.Lightning;
 import worldobject.entities.action.animated.Quake;
+import worldobject.entities.action.animated.miner.Miner;
+import worldobject.entities.action.animated.miner.MinerStorm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +80,7 @@ public class WorldModel {
 		return (this.within_bounds(pt) && occupany.getCell(pt) == null);
 	}
 	
-	public Object find_nearest(Point pt, Types type) 
+	public Entity find_nearest(Point pt, Types type) 
 	{
 		
 		ArrayList<Entity> oftype = new ArrayList<Entity>();
@@ -236,6 +238,13 @@ public class WorldModel {
 		return vein;
 	}
 	
+	public Miner createMinerStorm(Miner miner, long ticks)
+	{
+		this.add_entity(miner);
+		miner.scheduleMiner(this, ticks);
+		return miner;
+	}
+	
 	public Ore createOre(String name, Point pt, long ticks)
 	{
 		Random r = new Random();
@@ -252,10 +261,11 @@ public class WorldModel {
 		return quake;
 	}
 	
-	public Lightning createLightning(Point pt, long ticks)
+	public Lightning createLightning(Point pt, Miner replacement, long ticks)
 	{
 		Lightning light = new Lightning("lightning", pt, Load.LIGHTNING_IMG, Schedules.LIGHTNING_ANIMATION_RATE);
-		light.scheduleLightning(this, ticks);
+		//this.add_entity(light);
+		light.scheduleLightning(this, replacement, ticks);
 		return light;
 	}
 }

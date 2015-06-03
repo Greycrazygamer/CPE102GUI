@@ -2,10 +2,10 @@ package worldloaders;
 
 import worldmodel.WorldModel;
 import worldobject.Background;
-import worldobject.Storm;
 import worldobject.entities.Blacksmith;
 import worldobject.entities.Entity;
 import worldobject.entities.Obstacle;
+import worldobject.entities.Storm;
 import worldobject.entities.action.*;
 import worldobject.entities.action.animated.*;
 import worldobject.entities.action.animated.miner.*;
@@ -30,6 +30,7 @@ public class Load
 	public static List<PImage> BLOB_IMG= new ArrayList<>();
 	public static List<PImage> QUAKE_IMG= new ArrayList<>();
 	public static List<PImage> LIGHTNING_IMG= new ArrayList<>();
+	public static List<PImage> STORM_MINER_IMG= new ArrayList<>();
 	
 	
 		
@@ -245,6 +246,53 @@ public class Load
 				return null;
 			}
 			
+			public static void MouseStorm(WorldModel world, Point pt)
+			{
+				for (int i = pt.getY()-1; (i < pt.getY()+1); i++)
+				{
+					for(int j = pt.getX()-1; (j< pt.getX()+1); j++)
+					{
+						Point temp= new Point(j,i);
+						if (world.within_bounds(temp) && world.is_empty(temp))
+						{
+							world.add_entity(new Storm("Storm" + pt.getX() + pt.getY(), temp, Load.STORM_IMG));
+						}
+					}
+				}
+								
+			}
+			public static void LoadStorm(WorldModel world, String filename)
+			{
+				Scanner reader= null;
+				try {
+					reader = new Scanner(new File(filename));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				while (reader.hasNextLine())
+				{
+					String[] properties= reader.nextLine().split("\\s");
+					if (properties != null)
+					{
+						Point pt = new Point(Integer.parseInt(properties[STORM_COL]), Integer.parseInt(properties[STORM_ROW]));
+						String name = properties[STORM_NAME];
+						if (world.is_empty(pt))
+						{
+							world.add_entity(new Storm(name, pt, STORM_IMG));
+						}
+						
+					}
+					
+				}
+				reader.close();
+			}
+			
+			
+			
+			
+					
+					
 			public static Entity CreateMiner(String[] properties)
 			{
 				if (properties.length== MINER_NUM_PROPERTIES)
@@ -424,6 +472,9 @@ public class Load
 					temp = screen.loadImage(name);
 					Load.STORM_IMG.add(temp);
 					break;
+				case 12:
+					temp = screen.loadImage(name);
+					Load.STORM_MINER_IMG.add(temp);
 				}
 			}	
 			

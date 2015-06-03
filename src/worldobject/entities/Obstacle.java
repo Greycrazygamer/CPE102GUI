@@ -18,7 +18,7 @@ extends Entity
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
+	
 	public Types getType()
 	{
 		// TODO Auto-generated method stub

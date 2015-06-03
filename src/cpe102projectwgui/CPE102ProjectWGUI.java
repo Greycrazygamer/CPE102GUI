@@ -18,17 +18,19 @@ import worldloaders.Load;
 import worldloaders.WorldView;
 import worldmodel.WorldModel;
 import worldobject.Background;
-import worldobject.Storm;
 import worldobject.entities.Entity;
+import worldobject.entities.Storm;
 import worldobject.entities.action.animated.AnimatedEntity;
 import worldobject.entities.action.animated.Lightning;
+import worldobject.entities.action.animated.miner.MinerNotFull;
 
 
 public class CPE102ProjectWGUI extends PApplet 
 {
 	
-	public String WORLD_FILE = "src/projdata/gaia.sav";
+	public String WORLD_FILE = "src/projdata/gaia2.sav";
 	public String IMAGE_FILE = "src/projdata/imagelist";
+	public String STORM_FILE = "src/projdata/storms";
 	public int SCREEN_WIDTH = 640;
 	public int SCREEN_HEIGHT = 480;
 	public int TILE_WIDTH = 32;
@@ -71,7 +73,6 @@ public class CPE102ProjectWGUI extends PApplet
 		
 		
 		Load.LoadWorld(world, WORLD_FILE, RUN_AFTER_LOAD, System.currentTimeMillis());
-		world.add_entity(world.createLightning(new Point(5,5), System.currentTimeMillis()));
 		view.drawViewport();
 	}
 
@@ -126,25 +127,13 @@ public class CPE102ProjectWGUI extends PApplet
 		if (mousePressed)
 		{
 			Point pt = new Point(view.realMousePosX(), view.realMousePosY());
-			LoadStorm(world, pt);
+			System.out.println(pt.printXY());
+			Load.MouseStorm(world, pt);
+			Load.LoadStorm(world, STORM_FILE);
 		}
 	}
 	
-	public void LoadStorm(WorldModel world, Point pt)
-	{
-		for (int i = pt.getY()-2; (i < pt.getY()+2); i++)
-		{
-			for(int j = pt.getX()-2; (j< pt.getX()+2); j++)
-			{
-				Point temp= new Point(j,i);
-				if (world.within_bounds(temp))
-				{
-					world.set_background(temp, new Storm("Storm" + pt.getX() + pt.getY(), Load.STORM_IMG));
-				}
-			}
-		}
-						
-	}
+	
 	public void keyPressed()
 	{
 		int deltaX= 0;

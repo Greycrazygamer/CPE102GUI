@@ -239,7 +239,14 @@ extends worldobject.entities.action.Actionable
 			System.out.println("<end>");
 		}
 	}
-	
+	public void PointPrint(HashSet<Point> set)
+	{
+		for (Point n: set)
+		{
+			System.out.print(n.printXY());
+		}
+		System.out.println("<end>");
+	}
 	public void NodePrint(HashSet<Node> set, String value)
 	{
 		if (value== "X")

@@ -12,6 +12,7 @@ import projdata.Types;
 import worldloaders.Action;
 import worldloaders.Schedules;
 import worldmodel.WorldModel;
+import worldobject.entities.Storm;
 import worldobject.entities.action.Ore;
 
 
@@ -20,6 +21,7 @@ extends worldobject.entities.action.animated.AnimatedEntity
 {
 	private int resource_limit;
 	private int resource_count;
+	
 		
 	public Miner(String name, int resource_limit, 
 			Point position, long rate, List<PImage> imgs, long animation_rate)
@@ -29,7 +31,7 @@ extends worldobject.entities.action.animated.AnimatedEntity
 		this.resource_count= 2;
 			
 	}
-
+	
 	public void setResourceCount(int n)
 	{
 		this.resource_count= n;
@@ -75,8 +77,7 @@ extends worldobject.entities.action.animated.AnimatedEntity
 		if (this != new_entity)
 		{
 			
-			Schedules.clearPendingActions(world, this);
-			Schedules.removeEntity(world, this);
+			this.removeEntity(world);
 			world.add_entity(new_entity);
 			Schedules.scheduleMinerAnimation(world, new_entity);
 		}
@@ -92,13 +93,24 @@ extends worldobject.entities.action.animated.AnimatedEntity
 			
 			this.removePendingAction(func[0]);
 			
-			boolean found = this.startAction(world);
+			int found = this.startAction(world);
 			
 			Miner new_entity = this;
-			if (found)
+			if (found==1)
 			{
 				new_entity= this.tryTransformMiner(world);
 				
+			}
+			else if(found==2)
+			{
+				if (!(this instanceof MinerStorm))
+				{
+					Point temp = this.getPosition();
+					Miner stormy= this.transformStormMiner(world);
+					Schedules.clearPendingActions(world, this);
+					this.removeEntity(world);
+					world.add_entity(world.createLightning(temp, stormy, current_ticks));
+				}
 			}
 			
 			long temp = current_ticks + new_entity.getRate();
@@ -112,6 +124,24 @@ extends worldobject.entities.action.animated.AnimatedEntity
 	{
 		Schedules.scheduleAction(world, this, this.createMinerAction(world), ticks + this.getRate());
 		Schedules.scheduleMinerAnimation(world, this);
+	}
+	
+	public HashSet<Point> neighborStorms(WorldModel world)
+	{
+		HashSet<Point> temp = new HashSet<>();
+		Point UP = new Point(this.getPosition().getX(), this.getPosition().getY()-1);
+		Point DOWN= new Point(this.getPosition().getX(), this.getPosition().getY()+1);
+		Point RIGHT= new Point(this.getPosition().getX()+1, this.getPosition().getY());
+		Point LEFT= new Point(this.getPosition().getX()-1, this.getPosition().getY());
+		if (world.within_bounds(UP) && world.get_tile_occupant(UP) instanceof Storm)
+				temp.add(UP);
+		if (world.within_bounds(DOWN) && world.get_tile_occupant(DOWN) instanceof Storm)
+			temp.add(DOWN);
+		if (world.within_bounds(LEFT) && world.get_tile_occupant(LEFT) instanceof Storm)
+			temp.add(LEFT);
+		if (world.within_bounds(RIGHT) && world.get_tile_occupant(RIGHT) instanceof Storm)
+			temp.add(RIGHT);
+		return temp;
 	}
 	
 	public HashSet<Node> neighborNodes(Node current, Node goal, WorldModel world)
@@ -137,7 +167,8 @@ extends worldobject.entities.action.animated.AnimatedEntity
 			temp.add(LEFT);
 		return temp;
 	}
-	public abstract boolean startAction(WorldModel world);
+	public abstract int startAction(WorldModel world);
 	public abstract Miner transformType(WorldModel world);
+	public abstract Miner transformStormMiner(WorldModel world);
 	
 }

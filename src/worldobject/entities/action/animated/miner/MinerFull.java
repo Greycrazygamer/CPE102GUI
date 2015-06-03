@@ -10,6 +10,7 @@ import projdata.Node;
 import projdata.Point;
 import projdata.Types;
 import worldloaders.Action;
+import worldloaders.Load;
 import worldloaders.Schedules;
 import worldmodel.WorldModel;
 import worldobject.entities.Blacksmith;
@@ -27,7 +28,7 @@ extends Miner
 		// TODO Auto-generated constructor stub
 	}
 
-	public boolean minerToSmith(WorldModel world, Blacksmith smith)
+	public int minerToSmith(WorldModel world, Blacksmith smith)
 	{
 		Point entity_pt = this.getPosition();
 		if (smith == null)
@@ -35,22 +36,28 @@ extends Miner
 			LinkedList<Point> fail= new LinkedList<>();
 			fail.add(this.getPosition());
 			this.setDrawPath(fail);
-			return true;
+			return 1;
 		}
 		Point smith_pt = smith.getPosition();
 		if (entity_pt.adjacent(smith_pt))
 		{
 			smith.set_resource_count(smith.get_resource_count() + this.getResourceCount());
 			this.setResourceCount(0);
-			return true;
+			return 1;
 		}
 		else
 		{
+			HashSet<Point> bad = this.neighborStorms(world);
+				if (bad.isEmpty()==false)
+				{
+					return 2;
+				}
+			
 			Point newPt= this.aStar(smith_pt, world).getFirst();
 //			this.APrint();
 //			Point newPt= this.nextPositon(world, smith_pt);
 			world.move_entity(this, newPt);
-			return false;
+			return 0;
 		}
 	}
 	
@@ -63,7 +70,7 @@ extends Miner
 	}
 
 	
-	public boolean startAction(WorldModel world)
+	public int startAction(WorldModel world)
 	{
 		Blacksmith smith = (Blacksmith) world.find_nearest(this.getPosition(), Types.BLACKSMITH);
 		return this.minerToSmith(world, smith);
@@ -74,7 +81,15 @@ extends Miner
 	{
 		return this.tryTransformMinerFull(world);
 	}
-
+	
+	public Miner transformStormMiner(WorldModel world)
+	{
+		Miner new_entity = new MinerStorm(
+				this.getName(), this.getResourceLimit(),
+				this.getPosition(), this.getRate()*2,
+				Load.STORM_MINER_IMG, this.getAnimationRate());
+		return new_entity;
+	}
 	
 
 

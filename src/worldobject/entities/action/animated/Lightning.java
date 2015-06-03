@@ -9,6 +9,7 @@ import projdata.Point;
 import worldloaders.Action;
 import worldloaders.Schedules;
 import worldmodel.WorldModel;
+import worldobject.entities.action.animated.miner.Miner;
 
 public class Lightning
 extends AnimatedEntity
@@ -21,18 +22,23 @@ extends AnimatedEntity
 	}
 	
 	
-	public Action createLightningAction(WorldModel world) {
+	public Action createLightningAction(WorldModel world, Miner replacement) {
         Action[] func = {null};
         func[0] = (ticks) -> {
             this.removePendingAction(func[0]);
             this.removeEntity(world);
+            if (replacement !=null)
+            {
+            	world.createMinerStorm(replacement, ticks);
+            }
+            
         };
         return func[0];
     }
-	public void scheduleLightning(WorldModel world, long ticks)
+	public void scheduleLightning(WorldModel world, Miner replacement, long ticks)
 	{
 		this.scheduleAnimation(world, Schedules.LIGHTNING_STEPS);
-        this.scheduleAction(world, this.createLightningAction(world), ticks + Schedules.LIGHTNING_DURATION);
+        this.scheduleAction(world, this.createLightningAction(world, replacement), ticks+Schedules.LIGHTNING_DURATION);
 	}
 	
 	public HashSet<Node> neighborNodes(Node current, Node goal, WorldModel world)

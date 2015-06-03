@@ -41,18 +41,6 @@ public class WorldModelTest
 	@Test
 	public void testWithin_bounds()
 	{
-		wor.add_entity(obstacleU);
-		wor.add_entity(win);
-		boolean teest;
-		teest= gofferA.startAction(wor);
-		while(teest)
-		{
-			teest= gofferA.startAction(wor);
-		}
-//		gofferA.aStar(win.getPosition(), wor);
-//		LinkedList<Point> tempB= gofferB.aStar(new Point(2,3), wor);
-//		gofferA.APrint();
-//		gofferB.APrint();
 		
 
 		
