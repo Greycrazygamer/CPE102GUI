@@ -1,6 +1,7 @@
 package worldobject.entities.action.animated;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 
 import processing.core.PImage;
@@ -32,6 +33,9 @@ extends AnimatedEntity
 	{	
 		if (target == null)
 		{
+			LinkedList<Point> fail= new LinkedList<>();
+			fail.add(this.getPosition());
+			this.setDrawPath(fail);
 			return false;
 		}
 		if (this.getPosition().adjacent(target.getPosition()))
@@ -53,7 +57,7 @@ extends AnimatedEntity
 		{
 			this.removePendingAction(func[0]);
 			
-			Actionable target = (Actionable) world.find_nearests(getPosition(), Types.MINERFULL, Types.BLOB);
+			Actionable target = (Actionable) world.find_nearest(getPosition(), Types.BLOB);
 			boolean found= this.wyvernToAnything(world, target);
 			
 			long nextTime = current_ticks + this.getRate();
@@ -91,13 +95,10 @@ extends AnimatedEntity
 		Node LEFT= new Node(current.getX()-1, current.getY(), current.getgValue()+1, 0);
 		LEFT.setfValue(LEFT.getgValue()+ LEFT.distance_sq(goal));
 		if (world.within_bounds(UP) && world.is_empty(UP)|| UP.equals(goal))
-
 				temp.add(UP);
 		if (world.within_bounds(DOWN) && world.is_empty(DOWN)|| DOWN.equals(goal))
-
 				temp.add(DOWN);
 		if (world.within_bounds(RIGHT) && world.is_empty(RIGHT))
-
 			temp.add(RIGHT);
 		if (world.within_bounds(LEFT) && world.is_empty(LEFT)|| LEFT.equals(goal))
 			temp.add(LEFT);

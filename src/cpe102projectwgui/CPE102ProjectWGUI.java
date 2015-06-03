@@ -28,7 +28,7 @@ import worldobject.entities.action.animated.miner.MinerNotFull;
 public class CPE102ProjectWGUI extends PApplet 
 {
 	
-	public String WORLD_FILE = "src/projdata/gaia.sav";
+	public String WORLD_FILE = "src/projdata/gaia2.sav";
 	public String IMAGE_FILE = "src/projdata/imagelist";
 	public String STORM_FILE = "src/projdata/storms";
 	public int SCREEN_WIDTH = 640;

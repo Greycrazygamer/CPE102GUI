@@ -16,6 +16,7 @@ import worldmodel.WorldModel;
 import worldobject.entities.Blacksmith;
 import worldobject.entities.action.Ore;
 import worldobject.entities.action.animated.Blob;
+import worldobject.entities.action.animated.Wyvern;
 
 
 public class MinerStorm
@@ -29,7 +30,7 @@ extends Miner
 		// TODO Auto-generated constructor stub
 	}
 
-	public int minerToBlob(WorldModel world, Blob bob)
+	public int minerToWyvern(WorldModel world, Wyvern bob)
 	{
 		Point entity_pt = this.getPosition();
 		if (bob == null)
@@ -58,8 +59,8 @@ extends Miner
 	
 	public int startAction(WorldModel world)
 	{
-		Blob blob = (Blob) world.find_nearest(this.getPosition(), Types.BLOB);
-		return this.minerToBlob(world, blob);
+		Wyvern blob = (Wyvern) world.find_nearest(this.getPosition(), Types.WYVERN);
+		return this.minerToWyvern(world, blob);
 	}
 
 	@Override

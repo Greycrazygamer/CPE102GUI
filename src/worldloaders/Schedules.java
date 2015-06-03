@@ -16,7 +16,7 @@ public class Schedules
 	public static int BLOB_ANIMATION_MIN = 1;
 	public static int BLOB_ANIMATION_MAX = 3;
     
-	public static int WYVERN_RATE = 800;
+	public static int WYVERN_RATE = 500;
 	public static int WYVERN_ANIMATION_RATE = 100;
 	
 	public static int ORE_CORRUPT_MIN = 20000;
@@ -39,17 +39,6 @@ public class Schedules
 	public static int VEIN_RATE_MAX = 17000;
 
 	
-	public static Action createEntityDeathAction(WorldModel world, Actionable entity)
-	{
-		Action[] func= {null};
-		func[0]= (long ticks) -> 
-		{
-			entity.removePendingAction(func[0]);
-			Point pt= entity.getPosition();
-			world.remove_entity(entity);
-			};
-		return func[0];
-	}
 	
 	
 	
@@ -111,14 +100,6 @@ public class Schedules
 		entity.clearPendingActions();
 	}
 	
-	public static void removeEntity(WorldModel world, Actionable entity)
-	{
-		for( Action a: entity.getPendingActions())
-		{
-			world.unscheduleAction(a);
-		}
-		entity.clearPendingActions();
-		world.remove_entity(entity);
-	}
+	
 }
 

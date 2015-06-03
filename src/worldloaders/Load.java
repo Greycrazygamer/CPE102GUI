@@ -272,8 +272,10 @@ public class Load
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				int i=0;
 				while (reader.hasNextLine())
 				{
+					i++;
 					String[] properties= reader.nextLine().split("\\s");
 					if (properties != null)
 					{
@@ -284,7 +286,7 @@ public class Load
 							world.add_entity(new Storm(name, pt, STORM_IMG));
 						}
 						Point temp= new Point(pt.getX()-2, pt.getY());
-						if (world.is_empty(temp))
+						if (world.is_empty(temp)&& i%2==0)
 						{
 							Wyvern dragon = new Wyvern("dragon", temp, Schedules.WYVERN_RATE, Load.WYVERN_IMG, Schedules.WYVERN_ANIMATION_RATE);
 							world.add_entity(world.createLightning(temp, dragon, ticks));

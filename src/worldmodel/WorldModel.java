@@ -114,15 +114,17 @@ public class WorldModel {
 		return oftype.get(mindex);
 	}
 	
-	public Entity find_nearests(Point pt, Types type1, Types type2) 
+	public Entity find_nearests(Point pt, Types type1, Types type2, Types type3) 
 	{
 		
 		ArrayList<Entity> oftype = new ArrayList<Entity>();
 		int mindex =0;
 		for (Entity e : this.entities)
 		{	
-			if (type1 == e.getType() || type2 == e.getType())
+			
+			if (type1 == e.getType() || type2 == e.getType() || type3 == e.getType())
 			{
+				
 				oftype.add(e);
 			}
 		}
