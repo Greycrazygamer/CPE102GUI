@@ -95,7 +95,7 @@ public class CPE102ProjectWGUI extends PApplet
 	    {
 	    	this.DRAWPATH();
 	    	world.updateOnTime(time);
-	    	this.worldEvent();
+	    	this.worldEvent(time);
 	      // perform actions previous to current time
 	    	next_time = System.currentTimeMillis() +100;
 	    }
@@ -123,15 +123,15 @@ public class CPE102ProjectWGUI extends PApplet
 		}
 	}
 	
-	public void worldEvent()
+	public void worldEvent(long time)
 	{
 		if (mousePressed)
 		{
 			Point pt = new Point(view.realMousePosX(), view.realMousePosY());
 			System.out.println(pt.printXY());
 			Load.MouseStorm(world, pt);
-			Load.LoadStorm(world, STORM_FILE);
-			world.add_entity(world.createWyvern(new Point(10,10), System.currentTimeMillis()));
+			Load.LoadStorm(world, STORM_FILE, time);
+			
 		}
 	}
 	

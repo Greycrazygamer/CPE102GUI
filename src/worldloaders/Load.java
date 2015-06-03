@@ -263,7 +263,7 @@ public class Load
 				}
 								
 			}
-			public static void LoadStorm(WorldModel world, String filename)
+			public static void LoadStorm(WorldModel world, String filename, long ticks)
 			{
 				Scanner reader= null;
 				try {
@@ -282,6 +282,12 @@ public class Load
 						if (world.is_empty(pt))
 						{
 							world.add_entity(new Storm(name, pt, STORM_IMG));
+						}
+						Point temp= new Point(pt.getX()-2, pt.getY());
+						if (world.is_empty(temp))
+						{
+							Wyvern dragon = new Wyvern("dragon", temp, Schedules.WYVERN_RATE, Load.WYVERN_IMG, Schedules.WYVERN_ANIMATION_RATE);
+							world.add_entity(world.createLightning(temp, dragon, ticks));
 						}
 						
 					}

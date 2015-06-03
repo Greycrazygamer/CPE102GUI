@@ -9,6 +9,7 @@ import worldobject.entities.Entity;
 import worldobject.entities.Obstacle;
 import worldobject.entities.action.Ore;
 import worldobject.entities.action.Vein;
+import worldobject.entities.action.animated.AnimatedEntity;
 import worldobject.entities.action.animated.Blob;
 import worldobject.entities.action.animated.Flame;
 import worldobject.entities.action.animated.Lightning;
@@ -294,9 +295,9 @@ public class WorldModel {
 		return quake;
 	}
 	
-	public Wyvern createWyvern(Point pt, long ticks)
+	public Wyvern createWyvern(Wyvern dragon, long ticks)
 	{
-		Wyvern dragon = new Wyvern("dragon", pt, Schedules.WYVERN_RATE, Load.WYVERN_IMG, Schedules.WYVERN_ANIMATION_RATE);
+		this.add_entity(dragon);
 		dragon.scheduleWyvern(this, ticks);
 		return dragon;
 	}
@@ -308,7 +309,7 @@ public class WorldModel {
 		return fire;
 	}
 	
-	public Lightning createLightning(Point pt, Miner replacement, long ticks)
+	public Lightning createLightning(Point pt, AnimatedEntity replacement, long ticks)
 	{
 		Lightning light = new Lightning("lightning", pt, Load.LIGHTNING_IMG, Schedules.LIGHTNING_ANIMATION_RATE);
 		//this.add_entity(light);

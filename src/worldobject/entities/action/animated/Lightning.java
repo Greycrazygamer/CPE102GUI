@@ -22,20 +22,23 @@ extends AnimatedEntity
 	}
 	
 	
-	public Action createLightningAction(WorldModel world, Miner replacement) {
+	public Action createLightningAction(WorldModel world, AnimatedEntity replacement) {
         Action[] func = {null};
         func[0] = (ticks) -> {
             this.removePendingAction(func[0]);
             this.removeEntity(world);
             if (replacement !=null)
             {
-            	world.createMinerStorm(replacement, ticks);
+            	if (replacement instanceof Miner)
+            		world.createMinerStorm((Miner) replacement, ticks);
+            	else if(replacement instanceof Wyvern)
+            		world.createWyvern((Wyvern) replacement, ticks);
             }
             
         };
         return func[0];
     }
-	public void scheduleLightning(WorldModel world, Miner replacement, long ticks)
+	public void scheduleLightning(WorldModel world, AnimatedEntity replacement, long ticks)
 	{
 		this.scheduleAnimation(world, Schedules.LIGHTNING_STEPS);
         this.scheduleAction(world, this.createLightningAction(world, replacement), ticks+Schedules.LIGHTNING_DURATION);
