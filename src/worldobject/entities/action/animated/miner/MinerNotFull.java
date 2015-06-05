@@ -19,11 +19,12 @@ import worldobject.entities.action.Ore;
 public class MinerNotFull
 extends Miner
 {
-
+	private boolean tried;
 	public MinerNotFull(String name, int resource_limit, Point position,
 			long rate, List<PImage> imgs, long animation_rate)
 	{
 		super(name, resource_limit, position, rate, imgs, animation_rate);
+		tried = false;
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -46,11 +47,12 @@ extends Miner
 		else
 		{
 			HashSet<Point> bad = this.neighborStorms(world);
-				if (bad.isEmpty()==false)
+				if (bad.isEmpty()==false && tried == false)
 				{
+					tried = true;
 					return 2;
 				}
-	
+				
 			Point newPt= this.aStar(ore.getPosition(), world).getFirst();
 			world.move_entity(this, newPt);
 			return 0;

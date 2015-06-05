@@ -33,6 +33,8 @@ public class Load
 	public static List<PImage> FLAME_IMG= new ArrayList<>();
 	public static List<PImage> STORM_MINER_IMG= new ArrayList<>();
 	public static List<PImage> WYVERN_IMG= new ArrayList<>();
+	public static int i=0;
+	public static int stormint=0;
 	
 	
 		
@@ -272,7 +274,7 @@ public class Load
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				int i=0;
+				
 				while (reader.hasNextLine())
 				{
 					i++;
@@ -286,7 +288,7 @@ public class Load
 							world.add_entity(new Storm(name, pt, STORM_IMG));
 						}
 						Point temp= new Point(pt.getX()-1, pt.getY());
-						if (world.is_empty(temp)&& i<8)
+						if (world.is_empty(temp)&& i<11)
 						{
 							Wyvern dragon = new Wyvern("dragon", temp, Schedules.WYVERN_RATE, Load.WYVERN_IMG, Schedules.WYVERN_ANIMATION_RATE);
 							world.add_entity(world.createLightning(temp, dragon, ticks));
@@ -295,6 +297,7 @@ public class Load
 					}
 					
 				}
+				i = 0;
 				reader.close();
 			}
 			

@@ -10,6 +10,7 @@ import projdata.Node;
 import projdata.Point;
 import projdata.Types;
 import worldloaders.Action;
+import worldloaders.Load;
 import worldloaders.Schedules;
 import worldmodel.WorldModel;
 import worldobject.entities.Storm;
@@ -103,8 +104,9 @@ extends worldobject.entities.action.animated.AnimatedEntity
 			}
 			else if(found==2)
 			{
-				if (!(this instanceof MinerStorm))
+				if (!(this instanceof MinerStorm) && Load.stormint < 7)
 				{
+					Load.stormint++;
 					Point temp = this.getPosition();
 					Miner stormy= this.transformStormMiner(world);
 					Schedules.clearPendingActions(world, this);

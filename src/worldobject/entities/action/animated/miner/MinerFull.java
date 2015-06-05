@@ -20,11 +20,12 @@ import worldobject.entities.action.Ore;
 public class MinerFull
 extends Miner
 {
-
+	private boolean tried;
 	public MinerFull(String name, int resource_limit, Point position, long rate,
 			List<PImage> imgs, long animation_rate)
 	{
 		super(name, resource_limit, position, rate, imgs, animation_rate);
+		tried = false;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -48,8 +49,9 @@ extends Miner
 		else
 		{
 			HashSet<Point> bad = this.neighborStorms(world);
-				if (bad.isEmpty()==false)
+				if (bad.isEmpty()==false && tried == false)
 				{
+					tried = true;
 					return 2;
 				}
 			

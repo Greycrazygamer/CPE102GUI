@@ -23,6 +23,7 @@ import worldobject.entities.Storm;
 import worldobject.entities.action.animated.AnimatedEntity;
 import worldobject.entities.action.animated.Lightning;
 import worldobject.entities.action.animated.miner.MinerNotFull;
+import worldobject.entities.action.animated.miner.MinerStorm;
 
 
 public class CPE102ProjectWGUI extends PApplet 
@@ -118,7 +119,8 @@ public class CPE102ProjectWGUI extends PApplet
 			{
 				view.drawPathTile(redpath, dtp);
 			}
-			view.drawTile(guy.getImage(), guy.getPosition());
+			if (!(guy instanceof MinerStorm))
+					view.drawTile(guy.getImage(), guy.getPosition());
 			
 		}
 	}
